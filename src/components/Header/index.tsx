@@ -38,13 +38,16 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="flex justify-between items-center px-6 py-2 bg-green-500 w-full shadow-lg fixed top-0 z-10">
+    <header className="flex justify-between items-center px-6 py-2 bg-green-500 w-full shadow-lg fixed top-0 z-10 font-semibold font-mono">
       <Link to="/">
         <img src={cartaologo} alt="Cartão de Todos" className="w-24 cursor-pointer" />
       </Link>
       <div className="flex items-center">
-        <a href="https://wa.link/xpopm6" className="text-white font-light text-lg mr-4">
-          Ajuda
+        <a href="https://wa.link/xpopm6" className="text-white font-light mr-4">
+          AJUDA
+        </a>
+        <a href="/about" className="text-white font-light mr-4">
+          SOBRE
         </a>
         {user ? (
           <div className="relative">
@@ -53,9 +56,6 @@ const Header: React.FC = () => {
             </button>
             {menuOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2">
-                <Link to="/conta" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">
-                  Conta
-                </Link>
                 {user.isAdmin && (
                   <Link to="/admin" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">
                     Dashboard

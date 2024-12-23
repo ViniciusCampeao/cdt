@@ -7,6 +7,7 @@ import Thanks from "./pages/Thanks";
 import AdminDashboard from "./pages/AdminDashboard";
 import Planilha from "./pages/Spreadsheet";
 import LoginPage from "./pages/LoginPage";
+import About from "./pages/About";
 
 init("PH7ve0_A2N2UWzCRI");
 
@@ -18,9 +19,9 @@ const App: React.FC = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/thank-you" element={<Thanks />} />
-        <Route path="/admin" element={<AdminDashboard />} />{" "}
-        <Route path="/planilha" element={<Planilha />} />{" "}
-        <Route path="/conta" element={<div>Conta (em construção)</div>} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/planilha" element={<Planilha />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </Router>
   );

@@ -19,12 +19,6 @@ const AdminDashboard: React.FC = () => {
           >
             Planilha
           </button>
-          <button
-            onClick={() => navigate('/conta')}
-            className="bg-green-600 text-white w-full py-3 rounded-lg hover:bg-green-700 transition"
-          >
-            Conta
-          </button>
         </div>
       </div>
     </div>
