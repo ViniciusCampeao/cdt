@@ -25,7 +25,7 @@ const RecordItem: React.FC<RecordItemProps> = ({ record, handleDeleteRecord, han
   };
 
   return (
-    <div className="p-4 bg-gray-200 rounded-lg flex justify-between items-center mb-2 cursor-pointer" onClick={() => setShowDetails(!showDetails)}>
+    <div className="p-4 bg-gray-200 rounded-lg md:flex justify-between items-center mb-2 cursor-pointer" onClick={() => setShowDetails(!showDetails)}>
       <div>
         <p className="font-semibold">{record.name}</p>
         <p className="text-blue-500 hover:underline" onClick={(e) => { e.stopPropagation(); handleNumberClick(record.number); }}>
@@ -34,7 +34,7 @@ const RecordItem: React.FC<RecordItemProps> = ({ record, handleDeleteRecord, han
         {showDetails && <p>{record.status}</p>}
         <p className="text-sm text-gray-500">{formatDate(record.createdAt)}</p>
       </div>
-      <div className="space-x-2">
+      <div className="space-x-2 mt-2 md:mt-0">
         <button
           onClick={(e) => { e.stopPropagation(); handleEditRecord(record); }}
           className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
