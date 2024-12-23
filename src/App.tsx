@@ -8,6 +8,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Planilha from "./pages/Spreadsheet";
 import LoginPage from "./pages/LoginPage";
 import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 init("PH7ve0_A2N2UWzCRI");
 
@@ -22,6 +23,7 @@ const App: React.FC = () => {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/planilha" element={<Planilha />} />
         <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </Router>
   );

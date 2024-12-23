@@ -43,11 +43,11 @@ const Header: React.FC = () => {
         <img src={cartaologo} alt="Cartão de Todos" className="w-24 cursor-pointer" />
       </Link>
       <div className="flex items-center">
-        <a href="https://wa.link/xpopm6" className="text-white font-light mr-4">
-          AJUDA
+        <a href="/contact" className="text-white font-light mr-4">
+          CONTATO
         </a>
         <a href="/about" className="text-white font-light mr-4">
-          SOBRE
+          SOBRE 
         </a>
         {user ? (
           <div className="relative">
