@@ -1,26 +1,35 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const StartPage: React.FC = () => {
   return (
-    <div className="bg-gray-100 flex items-center justify-center min-h-screen">
-      <div className="flex flex-col items-center justify-center w-[50%] bg-white">
-      <h1 className="text-4xl text-green-700 mb-8">
-        Bem-vindo à Forma de Arrecadação
-      </h1>
-      <Link
-        to="/payment"
-        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-      >
-        Prosseguir com o Pagamento
-      </Link>
-      <p className="mt-4">
-        Você será redirecionado para a nossa pagina de pagamento online,
-        qualquer problema clique em <a href="https://wa.link/xpopm6">ajuda</a>
-      </p>
+    <div className="bg-gray-100 flex items-center justify-center h-screen">
+      <div className="flex flex-col items-center justify-center w-full max-w-lg bg-white p-8 shadow-lg rounded-lg">
+        <h1 className="text-4xl font-bold text-green-700 mb-6 text-center">
+          Bem-vindo à Forma de Arrecadação
+        </h1>
+        <p className="text-gray-600 text-center mb-6">
+          Estamos aqui para ajudar você a realizar seus pagamentos de forma simples e segura.
+        </p>
+        <a
+          href="/payment"
+          className="bg-green-500 text-white px-6 py-3 rounded-lg text-lg font-medium shadow-md hover:bg-green-600 transition"
+        >
+          Prosseguir com o Pagamento
+        </a>
+        <p className="mt-6 text-center text-sm text-gray-500">
+          Caso encontre algum problema, clique em{" "}
+          <a
+            href="https://wa.link/xpopm6"
+            className="text-green-500 underline hover:text-green-600"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ajuda
+          </a>
+          .
+        </p>
+      </div>
     </div>
-    </div>
-  
   );
 };
 

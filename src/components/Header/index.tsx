@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
   return (
-    <header className="flex justify-between items-center px-6 py-2 bg-green-500 fixed w-full top-0 shadow-lg">
+    <header className="flex justify-between items-center px-6 py-2 bg-green-500 w-full shadow-lg fixed top-0">
       <Link to="/">
         <img
           src={cartaologo}

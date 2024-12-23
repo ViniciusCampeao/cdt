@@ -1,8 +1,13 @@
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import ThankYouPage from "../components/Thankyou";
+
 const Thanks = () => {
   return (
     <div>
-      <h1>Thanks for your order!</h1>
-      <p>We appreciate your business.</p>
+      <Header />
+      <ThankYouPage />
+      <Footer />
     </div>
   );
 }

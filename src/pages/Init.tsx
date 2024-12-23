@@ -4,7 +4,7 @@ import StartPage from "../components/StartPage";
 
 const Home = () => {
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50">
       <Header />
       <StartPage />
       <Footer />
