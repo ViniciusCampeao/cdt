@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Record } from './Types';
+import { format } from 'date-fns';
+import firebase from 'firebase/compat/app';
 
 interface RecordItemProps {
   record: Record;
@@ -8,41 +10,44 @@ interface RecordItemProps {
 }
 
 const RecordItem: React.FC<RecordItemProps> = ({ record, handleDeleteRecord, handleEditRecord }) => {
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [showDetails, setShowDetails] = useState<boolean>(false);
 
-  const toggleExpand = () => {
-    setIsExpanded(!isExpanded);
+  const handleNumberClick = (number: string) => {
+    const whatsappUrl = `https://wa.me/${number}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const formatDate = (date: firebase.firestore.Timestamp | undefined) => {
+    if (date) {
+      return format(date.toDate(), 'dd/MM/yyyy HH:mm');
+    }
+    return '';
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-lg space-y-2 cursor-pointer" onClick={toggleExpand}>
-      <div className="flex justify-between items-center">
-        <div>
-          <span>{record.name}</span>
-        </div>
-        <div>
-          <a href={`https://wa.me/${record.number}`} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-800 transition">
-            {record.number}
-          </a>
-          <button
-            onClick={(e) => { e.stopPropagation(); handleEditRecord(record); }}
-            className="ml-4 text-blue-600 hover:text-blue-800 transition"
-          >
-            Editar
-          </button>
-          <button
-            onClick={(e) => { e.stopPropagation(); handleDeleteRecord(record.id); }}
-            className="ml-4 text-red-600 hover:text-red-800 transition"
-          >
-            Excluir
-          </button>
-        </div>
+    <div className="p-4 bg-gray-200 rounded-lg flex justify-between items-center mb-2 cursor-pointer" onClick={() => setShowDetails(!showDetails)}>
+      <div>
+        <p className="font-semibold">{record.name}</p>
+        <p className="text-blue-500 hover:underline" onClick={(e) => { e.stopPropagation(); handleNumberClick(record.number); }}>
+          {record.number}
+        </p>
+        {showDetails && <p>{record.status}</p>}
+        <p className="text-sm text-gray-500">{formatDate(record.createdAt)}</p>
       </div>
-      {isExpanded && (
-        <div className="pt-2">
-          <span>{record.status}</span>
-        </div>
-      )}
+      <div className="space-x-2">
+        <button
+          onClick={(e) => { e.stopPropagation(); handleEditRecord(record); }}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+        >
+          Editar
+        </button>
+        <button
+          onClick={(e) => { e.stopPropagation(); handleDeleteRecord(record.id); }}
+          className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+        >
+          Deletar
+        </button>
+      </div>
     </div>
   );
 };

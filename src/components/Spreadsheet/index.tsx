@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, addDoc, query, where, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs, deleteDoc, doc, updateDoc, Timestamp } from 'firebase/firestore';
 import { db, auth } from '../../services/firebaseConfig';
 import Form from './Form';
 import RecordList from './RecordList';
@@ -37,12 +37,13 @@ const Planilha: React.FC = () => {
     if (user) {
       if (editRecordId) {
         const recordRef = doc(db, 'records', editRecordId);
-        await updateDoc(recordRef, recordData);
+        await updateDoc(recordRef, { ...recordData, updatedAt: Timestamp.now() });
         setEditRecordId(null);
       } else {
         await addDoc(collection(db, 'records'), {
           uid: user.uid,
           ...recordData,
+          createdAt: Timestamp.now(),
         });
       }
       setRecordData({ name: '', number: '', status: '' });

@@ -4,11 +4,14 @@ import { init } from "@emailjs/browser";
 import Home from "./pages/Init";
 import PaymentPage from "./pages/PaymentPage";
 import Thanks from "./pages/Thanks";
-import AdminDashboard from "./pages/AdminDashboard";
 import Planilha from "./pages/Spreadsheet";
 import LoginPage from "./pages/LoginPage";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Dashboard from "./pages/Dashboard";
+import Arts from "./pages/Arts";
+import Bot from "./pages/Bot";
+import Clients from "./pages/Clients";
 
 init("PH7ve0_A2N2UWzCRI");
 
@@ -20,10 +23,13 @@ const App: React.FC = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/thank-you" element={<Thanks />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin" element={<Dashboard />} />
         <Route path="/planilha" element={<Planilha />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/arts" element={<Arts />} />
+        <Route path="/bot" element={<Bot />} />
+        <Route path="/clients" element={<Clients />} />
       </Routes>
     </Router>
   );
