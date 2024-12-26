@@ -1,5 +1,5 @@
 import React from 'react';
-import { CSSTransition } from 'react-transition-group';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 interface AboutCardProps {
   title: string;
@@ -10,19 +10,14 @@ interface AboutCardProps {
 
 const AboutCard: React.FC<AboutCardProps> = ({ title, content, isOpen, onClick }) => {
   return (
-    <div
-      className="bg-green-500 text-white p-6 rounded-lg cursor-pointer transition-transform transform hover:scale-105 mb-4"
-      onClick={onClick}
-    >
-      <h3 className="text-2xl font-bold mb-2">{title}</h3>
-      <CSSTransition
-        in={isOpen}
-        timeout={300}
-        classNames="content"
-        unmountOnExit
-      >
-        <p className="text-sm">{content}</p>
-      </CSSTransition>
+    <div className="bg-green-100 border border-green-300 rounded-lg p-4 shadow-md">
+      <div className="flex justify-between items-center cursor-pointer" onClick={onClick}>
+        <h3 className="text-xl font-semibold text-green-700">{title}</h3>
+        <div className="text-green-700">
+          {isOpen ? <FaChevronUp /> : <FaChevronDown />}
+        </div>
+      </div>
+      {isOpen && <p className="mt-4 text-green-600">{content}</p>}
     </div>
   );
 };

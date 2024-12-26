@@ -3,7 +3,7 @@ import React from "react";
 const StartPage: React.FC = () => {
   return (
     <div className="bg-gray-100 flex items-center justify-center h-screen">
-      <div className="flex flex-col items-center justify-center w-full max-w-lg bg-white p-8 shadow-lg rounded-lg">
+      <div className="flex flex-col items-center justify-center w-full max-w-lg md:bg-white p-8 md:shadow-lg rounded-lg">
         <h1 className="text-4xl font-bold text-green-700 mb-6 text-center">
           Bem-vindo à Forma de Arrecadação
         </h1>

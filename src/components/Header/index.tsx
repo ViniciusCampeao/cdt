@@ -4,10 +4,12 @@ import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '../../services/firebaseConfig';
 import cartaologo from '../../assets/images/cartaologo.png';
 import { doc, getDoc } from 'firebase/firestore';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Header: React.FC = () => {
   const [user, setUser] = useState<null | { email: string; isAdmin: boolean }>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +25,15 @@ const Header: React.FC = () => {
     });
 
     return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const handleSignOut = () => {
@@ -42,7 +53,10 @@ const Header: React.FC = () => {
       <Link to="/">
         <img src={cartaologo} alt="Cartão de Todos" className="w-24 cursor-pointer" />
       </Link>
-      <div className="flex items-center">
+      <nav className="md:flex hidden flex-1 justify-end items-center">
+        <a href="/" className='text-white font-light mr-4'>
+          HOME
+        </a>
         <a href="/contact" className="text-white font-light mr-4">
           CONTATO
         </a>
@@ -75,7 +89,44 @@ const Header: React.FC = () => {
             Login
           </Link>
         )}
+      </nav>
+      <div className="md:hidden flex items-center">
+        <button onClick={toggleMenu} className="text-white text-3xl">
+          {menuOpen ? <FaTimes /> : <FaBars />}
+        </button>
       </div>
+      {menuOpen && isMobile && (
+        <div className="absolute top-16 left-0 w-full bg-green-500 shadow-lg md:hidden flex flex-col items-center">
+          <a href="/" className="text-white font-light py-2" onClick={toggleMenu}>
+            HOME
+          </a>
+          <a href="/contact" className="text-white font-light py-2" onClick={toggleMenu}>
+            CONTATO
+          </a>
+          <a href="/about" className="text-white font-light py-2" onClick={toggleMenu}>
+            SOBRE
+          </a>
+          {user ? (
+            <>
+              {user.isAdmin && (
+                <Link to="/admin" className="text-white font-light py-2" onClick={toggleMenu}>
+                  Dashboard
+                </Link>
+              )}
+              <button
+                onClick={handleSignOut}
+                className="text-white font-light py-2"
+              >
+                Sair
+              </button>
+            </>
+          ) : (
+            <Link to="/login" className="text-white font-light py-2" onClick={toggleMenu}>
+              Login
+            </Link>
+          )}
+        </div>
+      )}
     </header>
   );
 };

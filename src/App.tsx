@@ -10,8 +10,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Dashboard from "./pages/Dashboard";
 import Arts from "./pages/Arts";
-import Bot from "./pages/Bot";
-import Clients from "./pages/Clients";
+import Extract from "./pages/Extract";
 
 init("PH7ve0_A2N2UWzCRI");
 
@@ -28,8 +27,7 @@ const App: React.FC = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/arts" element={<Arts />} />
-        <Route path="/bot" element={<Bot />} />
-        <Route path="/clients" element={<Clients />} />
+        <Route path="/extract" element={<Extract />} />
       </Routes>
     </Router>
   );

@@ -17,12 +17,12 @@ const AboutComponent: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col md:flex-row p-10 bg-gray-100">
-      <div className="flex-1 flex items-center justify-center">
+    <div className="flex min-h-screen flex-col md:flex-row p-10 bg-gray-100 font-mono">
+      <div className="md:flex-1 flex items-center justify-center">
         <img src={image} alt="Imagem Descritiva" className="w-3/5 rounded-full object-cover" />
       </div>
-      <div className="flex-1 flex flex-col items-start justify-center">
-        <h2 className="text-4xl font-bold text-green-700 mb-8">Benefícios</h2>
+      <div className="md:flex-1 mt-4 flex flex-col items-start justify-center text-center">
+        <h2 className="text-4xl font-mono text-green-700 mb-8 w-full">Benefícios</h2>
         <div className="space-y-4 w-full">
           {cards.map((card, index) => (
             <AboutCard

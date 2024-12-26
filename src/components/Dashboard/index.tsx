@@ -12,8 +12,7 @@ const AdminDashboard: React.FC = () => {
           <h2 className="text-3xl font-bold text-green-700 mb-6 text-center">Admin Dashboard</h2>
           <div className="space-y-4">
             <DashboardButton label="Planilha" path="/planilha" />
-            <DashboardButton label="Clientes" path="/clients" />
-            <DashboardButton label="Bot" path="/bot" />
+            <DashboardButton label="Extração de números" path="/extract" />
             <DashboardButton label="Artes" path="/arts" />
           </div>
         </div>
