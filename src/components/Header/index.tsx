@@ -9,7 +9,6 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 const Header: React.FC = () => {
   const [user, setUser] = useState<null | { email: string; isAdmin: boolean }>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -26,15 +25,6 @@ const Header: React.FC = () => {
     });
 
     return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const handleSignOut = () => {
@@ -101,45 +91,50 @@ const Header: React.FC = () => {
           {menuOpen ? <FaTimes /> : <FaBars />}
         </button>
       </div>
-      {menuOpen && isMobile && (
-        <div className="absolute top-16 left-0 w-full bg-green-500 shadow-lg md:hidden flex flex-col items-center">
-          <a href="/" className="text-white font-light py-2" onClick={toggleMenu}>
-            HOME
-          </a>
-          <a href="/contact" className="text-white font-light py-2" onClick={toggleMenu}>
-            CONTATO
-          </a>
-          <a href="/about" className="text-white font-light py-2" onClick={toggleMenu}>
-            SOBRE
-          </a>
-          {user ? (
-            <>
-              <button onClick={toggleProfileMenu} className="text-white font-bold text-xl bg-green-600 rounded-full w-10 h-10 flex items-center justify-center mb-2">
-                {user.email.charAt(0).toUpperCase()}
-              </button>
-              {profileMenuOpen && (
-                <div className="w-full flex flex-col items-center bg-green-500">
-                  {user.isAdmin && (
-                    <Link to="/admin" className="text-white font-light py-2" onClick={toggleMenu}>
-                      Dashboard
-                    </Link>
-                  )}
-                  <button
-                    onClick={handleSignOut}
-                    className="text-white font-light py-2"
-                  >
-                    Sair
-                  </button>
-                </div>
-              )}
-            </>
-          ) : (
-            <Link to="/login" className="text-white font-light py-2" onClick={toggleMenu}>
-              Login
-            </Link>
-          )}
-        </div>
-      )}
+      <div
+        className={`fixed top-0 right-0 h-full w-full bg-green-500 shadow-lg md:hidden flex flex-col items-center justify-center transition-transform duration-300 transform ${
+          menuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <button onClick={toggleMenu} className="absolute top-4 right-4 text-white text-3xl">
+          <FaTimes />
+        </button>
+        <a href="/" className="text-white font-light py-2" onClick={toggleMenu}>
+          HOME
+        </a>
+        <a href="/contact" className="text-white font-light py-2" onClick={toggleMenu}>
+          CONTATO
+        </a>
+        <a href="/about" className="text-white font-light py-2" onClick={toggleMenu}>
+          SOBRE
+        </a>
+        {user ? (
+          <>
+            <button onClick={toggleProfileMenu} className="text-white font-bold text-xl bg-green-600 rounded-full w-10 h-10 flex items-center justify-center mb-2">
+              {user.email.charAt(0).toUpperCase()}
+            </button>
+            {profileMenuOpen && (
+              <div className="w-full flex flex-col items-center bg-green-500">
+                {user.isAdmin && (
+                  <Link to="/admin" className="text-white font-light py-2" onClick={toggleMenu}>
+                    Dashboard
+                  </Link>
+                )}
+                <button
+                  onClick={handleSignOut}
+                  className="text-white font-light py-2"
+                >
+                  Sair
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <Link to="/login" className="text-white font-light py-2" onClick={toggleMenu}>
+            Login
+          </Link>
+        )}
+      </div>
     </header>
   );
 };
