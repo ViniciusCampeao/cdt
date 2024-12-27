@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const PhoneExtractor: React.FC = () => {
   const [text, setText] = useState('');
-  const [phones, setPhones] = useState<string[]>([]);
+  const [phones, setPhones] = useState<{ number: string; checked: boolean }[]>([]);
 
   const extractPhoneNumbers = (inputText: string) => {
     const phonePattern = /\b(\d{10,11})\b/g;
@@ -10,9 +10,9 @@ const PhoneExtractor: React.FC = () => {
     if (matches) {
       const formattedNumbers = matches.map(number => {
         if (number.length === 10) {
-          return number.slice(0, 2) + '9' + number.slice(2);
+          return { number: number.slice(0, 2) + '9' + number.slice(2), checked: false };
         }
-        return number;
+        return { number, checked: false };
       });
       setPhones(formattedNumbers);
     } else {
@@ -22,6 +22,14 @@ const PhoneExtractor: React.FC = () => {
 
   const handleExtract = () => {
     extractPhoneNumbers(text);
+  };
+
+  const handleCheckboxChange = (index: number) => {
+    setPhones(prevPhones =>
+      prevPhones.map((phone, i) =>
+        i === index ? { ...phone, checked: !phone.checked } : phone
+      )
+    );
   };
 
   return (
@@ -43,8 +51,21 @@ const PhoneExtractor: React.FC = () => {
         <h2 className="text-2xl font-semibold mb-2">Números Extraídos:</h2>
         <ul className="list-disc list-inside">
           {phones.map((phone, index) => (
-            <li key={index} className="bg-white p-2 my-1 rounded border border-gray-300">
-              {phone}
+            <li key={index} className="bg-white p-2 my-1 rounded border border-gray-300 flex items-center">
+              <input
+                type="checkbox"
+                checked={phone.checked}
+                onChange={() => handleCheckboxChange(index)}
+                className="mr-2"
+              />
+              <a
+                href={`https://wa.me/${phone.number}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex-1 ${phone.checked ? 'line-through text-gray-500' : ''}`}
+              >
+                {phone.number}
+              </a>
             </li>
           ))}
         </ul>

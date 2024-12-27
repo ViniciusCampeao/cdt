@@ -19,9 +19,8 @@ const StartPage: React.FC = () => {
         <p className="mt-6 text-center text-sm text-gray-500">
           Caso encontre algum problema, clique em{" "}
           <a
-            href="https://wa.link/xpopm6"
+            href="/contact"
             className="text-green-500 underline hover:text-green-600"
-            target="_blank"
             rel="noopener noreferrer"
           >
             ajuda

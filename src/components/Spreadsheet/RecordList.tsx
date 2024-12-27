@@ -22,7 +22,14 @@ const RecordList: React.FC<RecordListProps> = ({ records, handleDeleteRecord, ha
           <div className="flex justify-between items-center">
             <div>
               <h3 className="text-xl font-bold">{record.name}</h3>
-              <p>{record.number}</p>
+              <a
+                href={`https://wa.me/${record.number}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                {record.number}
+              </a>
               <p>{record.status}</p>
             </div>
             <div className="space-x-2">
