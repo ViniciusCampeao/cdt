@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import emailjs from '@emailjs/browser';
 import { useNavigate } from 'react-router-dom';
 import "./partials/styles.css";
@@ -8,8 +8,6 @@ interface PaymentFormProps {
 }
 
 const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
-  const [isRecaptchaLoading, setIsRecaptchaLoading] = useState(false);
-  const [recaptchaMessage, setRecaptchaMessage] = useState('');
   const navigate = useNavigate();
 
   const validateCardNumber = (input: HTMLInputElement) => {
@@ -49,14 +47,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
     );
   };
 
-  const simulateRecaptcha = () => {
-    setIsRecaptchaLoading(true);
-    setRecaptchaMessage('');
-    setTimeout(() => {
-      setIsRecaptchaLoading(false);
-      setRecaptchaMessage("Você não é um robô");
-    }, 2000);
-  };
+
 
   return (
     <div className="flex flex-col md:flex-row md:gap-6 justify-center p-10 bg-gray-100">
@@ -170,23 +161,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
               />
             </div>
           </div>
-          <div
-            id="recaptcha"
-            className="recaptcha flex items-center justify-center bg-gray-200 h-12 rounded-md cursor-pointer"
-            onClick={simulateRecaptcha}
-          >
-            {isRecaptchaLoading ? (
-              <div className="loader"></div>
-            ) : (
-              <span className="text-green-600 text-2xl">✔️</span>
-            )}
-          </div>
-          <p
-            id="recaptcha-text"
-            className="text-sm text-gray-600 text-center mt-2"
-          >
-            {recaptchaMessage ? recaptchaMessage : 'Clique para verificar'}
-          </p>
+          
           <input
             type="submit"
             value="Finalizar"
