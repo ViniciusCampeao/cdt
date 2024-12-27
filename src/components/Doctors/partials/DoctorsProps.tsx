@@ -27,9 +27,7 @@ const DoctorsContact: React.FC = () => {
   return (
     <div>
       <Header />
-      <div className="mt-12">
       <DoctorsTable doctors={Doctors} />
-      </div>
       <Footer />
     </div>
   );

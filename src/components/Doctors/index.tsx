@@ -29,7 +29,7 @@ const DoctorsTable: React.FC<DoctorsTableProps> = ({ doctors }) => {
         placeholder="Pesquisar por especialidade..."
         value={searchTerm}
         onChange={handleSearchChange}
-        className="mb-4 p-2 border rounded w-full max-w-md"
+        className="mb-6 p-2 border rounded w-full max-w-md"
       />
       <div className="md:border rounded-lg md:shadow-lg md:border-green-600">
         <table className="bg-gray-100 rounded-lg hidden md:block">
