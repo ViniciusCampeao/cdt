@@ -1,5 +1,4 @@
 import React from 'react';
-import RecordItem from './RecordItem';
 import { Record } from './Types';
 
 interface RecordListProps {
@@ -10,14 +9,28 @@ interface RecordListProps {
 
 const RecordList: React.FC<RecordListProps> = ({ records, handleDeleteRecord, handleEditRecord }) => {
   return (
-    <div className="records mt-6 space-y-4">
-      {records.map(record => (
-        <RecordItem
+    <div>
+      {records.map((record) => (
+        <div
           key={record.id}
-          record={record}
-          handleDeleteRecord={handleDeleteRecord}
-          handleEditRecord={handleEditRecord}
-        />
+          className={`p-4 my-2 rounded shadow-md border ${
+            record.color === 'green' ? 'bg-green-100 border-green-300' :
+            record.color === 'red' ? 'bg-red-100 border-red-300' :
+            'bg-yellow-100 border-yellow-300'
+          }`}
+        >
+          <div className="flex justify-between items-center">
+            <div>
+              <h3 className="text-xl font-bold">{record.name}</h3>
+              <p>{record.number}</p>
+              <p>{record.status}</p>
+            </div>
+            <div className="space-x-2">
+              <button onClick={() => handleEditRecord(record)} className="text-blue-500 hover:text-blue-700">Editar</button>
+              <button onClick={() => handleDeleteRecord(record.id)} className="text-red-500 hover:text-red-700">Deletar</button>
+            </div>
+          </div>
+        </div>
       ))}
     </div>
   );

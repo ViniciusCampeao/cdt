@@ -8,10 +8,11 @@ import { Record } from './Types';
 const Planilha: React.FC = () => {
   const [records, setRecords] = useState<Record[]>([]);
   const [editRecordId, setEditRecordId] = useState<string | null>(null);
-  const [recordData, setRecordData] = useState<{ name: string; number: string; status: string }>({
+  const [recordData, setRecordData] = useState<{ name: string; number: string; status: string; color: string }>({
     name: '',
     number: '',
     status: '',
+    color: 'green',
   });
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const Planilha: React.FC = () => {
           createdAt: Timestamp.now(),
         });
       }
-      setRecordData({ name: '', number: '', status: '' });
+      setRecordData({ name: '', number: '', status: '', color: 'green' });
       fetchRecords();
     }
   };
@@ -58,7 +59,7 @@ const Planilha: React.FC = () => {
 
   const handleEditRecord = (record: Record) => {
     setEditRecordId(record.id);
-    setRecordData({ name: record.name, number: record.number, status: record.status });
+    setRecordData({ name: record.name, number: record.number, status: record.status, color: record.color });
   };
 
   return (

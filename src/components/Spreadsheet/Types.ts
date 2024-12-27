@@ -1,6 +1,7 @@
 import { Timestamp } from 'firebase/firestore';
 
 export interface Record {
+  color: string;
   id: string;
   name: string;
   number: string;

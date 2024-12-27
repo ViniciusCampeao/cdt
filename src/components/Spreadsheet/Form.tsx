@@ -1,49 +1,68 @@
 import React from 'react';
 
 interface FormProps {
-  recordData: { name: string; number: string; status: string };
-  setRecordData: React.Dispatch<React.SetStateAction<{ name: string; number: string; status: string }>>;
+  recordData: { name: string; number: string; status: string; color: string };
+  setRecordData: React.Dispatch<React.SetStateAction<{ name: string; number: string; status: string; color: string }>>;
   handleAddRecord: (e: React.FormEvent) => void;
   editRecordId: string | null;
 }
 
 const Form: React.FC<FormProps> = ({ recordData, setRecordData, handleAddRecord, editRecordId }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setRecordData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
   return (
-    <form onSubmit={handleAddRecord} className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Nome</label>
+    <form onSubmit={handleAddRecord} className="mb-6">
+      <div className="mb-4">
+        <label className="block text-gray-700">Nome:</label>
         <input
           type="text"
+          name="name"
           value={recordData.name}
-          onChange={(e) => setRecordData((prev) => ({ ...prev, name: e.target.value }))}
-          placeholder="Nome"
+          onChange={handleChange}
+          className="w-full px-3 py-2 border rounded"
           required
-          className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full"
         />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Número</label>
+      <div className="mb-4">
+        <label className="block text-gray-700">Número:</label>
         <input
           type="text"
+          name="number"
           value={recordData.number}
-          onChange={(e) => setRecordData((prev) => ({ ...prev, number: e.target.value }))}
-          placeholder="Número"
+          onChange={handleChange}
+          className="w-full px-3 py-2 border rounded"
           required
-          className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full"
         />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Situação</label>
+      <div className="mb-4">
+        <label className="block text-gray-700">Status:</label>
         <input
           type="text"
+          name="status"
           value={recordData.status}
-          onChange={(e) => setRecordData((prev) => ({ ...prev, status: e.target.value }))}
-          placeholder="Situação"
+          onChange={handleChange}
+          className="w-full px-3 py-2 border rounded"
           required
-          className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full"
         />
       </div>
-      <button type="submit" className="bg-green-600 text-white w-full py-3 rounded-lg hover:bg-green-700 transition">
+      <div className="mb-4">
+        <label className="block text-gray-700">Cor:</label>
+        <select
+          name="color"
+          value={recordData.color}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border rounded"
+          required
+        >
+          <option value="green">Verde - Cadastrado</option>
+          <option value="red">Vermelho - Sem Interesse</option>
+          <option value="yellow">Amarelo - Conversando</option>
+        </select>
+      </div>
+      <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
         {editRecordId ? 'Atualizar' : 'Adicionar'}
       </button>
     </form>
