@@ -13,7 +13,7 @@ const RecordList: React.FC<RecordListProps> = ({ records, handleDeleteRecord, ha
       {records.map((record) => (
         <div
           key={record.id}
-          className={`p-4 my-2 rounded shadow-md border ${
+          className={`p-2 my-2 rounded shadow-md border ${
             record.color === 'green' ? 'bg-green-100 border-green-300' :
             record.color === 'red' ? 'bg-red-100 border-red-300' :
             'bg-yellow-100 border-yellow-300'
@@ -21,7 +21,7 @@ const RecordList: React.FC<RecordListProps> = ({ records, handleDeleteRecord, ha
         >
           <div className="flex justify-between items-center">
             <div>
-              <h3 className="text-xl font-bold">{record.name}</h3>
+              <h3 className="text-lg font-bold">{record.name}</h3>
               <a
                 href={`https://wa.me/${record.number}`}
                 target="_blank"
@@ -30,7 +30,8 @@ const RecordList: React.FC<RecordListProps> = ({ records, handleDeleteRecord, ha
               >
                 {record.number}
               </a>
-              <p>{record.status}</p>
+              <p className="text-sm text-gray-500">{record.status}</p>
+              <p className="text-sm text-gray-500">Adicionado em: {record.createdAt?.toDate().toLocaleDateString()}</p>
             </div>
             <div className="space-x-2">
               <button onClick={() => handleEditRecord(record)} className="text-blue-500 hover:text-blue-700">Editar</button>

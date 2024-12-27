@@ -14,6 +14,8 @@ const Planilha: React.FC = () => {
     status: '',
     color: 'green',
   });
+  const [filterDate, setFilterDate] = useState<string>('');
+  const [searchName, setSearchName] = useState<string>('');
 
   useEffect(() => {
     fetchRecords();
@@ -62,6 +64,20 @@ const Planilha: React.FC = () => {
     setRecordData({ name: record.name, number: record.number, status: record.status, color: record.color });
   };
 
+  const handleFilterDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterDate(e.target.value);
+  };
+
+  const handleSearchNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchName(e.target.value);
+  };
+
+  const filteredRecords = records.filter(record => {
+    const matchesDate = filterDate ? record.createdAt && new Date(record.createdAt.toDate()).toISOString().split('T')[0] === filterDate : true;
+    const matchesName = record.name.toLowerCase().includes(searchName.toLowerCase());
+    return matchesDate && matchesName;
+  });
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen md:p-10 p-4 bg-gray-100">
       <div className="text-left p-6 bg-white rounded-lg shadow-lg w-full max-w-2xl mt-12">
@@ -72,8 +88,27 @@ const Planilha: React.FC = () => {
           handleAddRecord={handleAddRecord}
           editRecordId={editRecordId}
         />
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">Filtrar por Data:</label>
+          <input
+            type="date"
+            value={filterDate}
+            onChange={handleFilterDateChange}
+            className="w-full px-3 py-2 border rounded"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">Pesquisar por Nome:</label>
+          <input
+            type="text"
+            placeholder="Digite o nome..."
+            value={searchName}
+            onChange={handleSearchNameChange}
+            className="w-full px-3 py-2 border rounded"
+          />
+        </div>
         <RecordList
-          records={records}
+          records={filteredRecords}
           handleDeleteRecord={handleDeleteRecord}
           handleEditRecord={handleEditRecord}
         />
