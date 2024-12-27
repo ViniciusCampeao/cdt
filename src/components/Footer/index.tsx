@@ -3,7 +3,7 @@ import selo from '../../assets/images/selo.png';
 
 const Footer = () => {
   return (
-    <footer className="relative bg-gradient-to-r from-green-500 via-green-600 to-green-700 text-white py-8 w-full overflow-hidden">
+    <footer className=" bg-gradient-to-r from-green-500 via-green-600 to-green-700 text-white py-8 w-full overflow-hidden">
       <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
         <div className="flex justify-center md:justify-start">
           <img src={logo} alt="logo" className="h-12"/>
