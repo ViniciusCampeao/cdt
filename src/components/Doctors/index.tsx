@@ -18,7 +18,7 @@ const DoctorsTable: React.FC<DoctorsTableProps> = ({ doctors }) => {
   };
 
   const filteredDoctors = doctors.filter(doctor =>
-    doctor.name.toLowerCase().includes(searchTerm.toLowerCase())
+    doctor.especialidade.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -26,7 +26,7 @@ const DoctorsTable: React.FC<DoctorsTableProps> = ({ doctors }) => {
       <h2 className="text-3xl font-bold text-green-700 mb-6">Médicos</h2>
       <input
         type="text"
-        placeholder="Pesquisar por nome..."
+        placeholder="Pesquisar por especialidade..."
         value={searchTerm}
         onChange={handleSearchChange}
         className="mb-4 p-2 border rounded w-full max-w-md"
