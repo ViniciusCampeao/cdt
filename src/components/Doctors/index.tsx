@@ -31,7 +31,7 @@ const DoctorsTable: React.FC<DoctorsTableProps> = ({ doctors }) => {
         onChange={handleSearchChange}
         className="mb-4 p-2 border rounded w-full max-w-md"
       />
-      <div className="border rounded-lg shadow-lg md:border-green-600">
+      <div className="md:border rounded-lg md:shadow-lg md:border-green-600">
         <table className="bg-gray-100 rounded-lg hidden md:block">
           <thead>
             <tr>
