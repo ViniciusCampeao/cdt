@@ -31,8 +31,8 @@ const DoctorsTable: React.FC<DoctorsTableProps> = ({ doctors }) => {
         onChange={handleSearchChange}
         className="mb-4 p-2 border rounded w-full max-w-md"
       />
-      <div className="border rounded-lg shadow-lg border-green-600">
-        <table className="bg-white rounded-lg shadow-lg hidden md:block">
+      <div className="border rounded-lg shadow-lg md:border-green-600">
+        <table className="bg-gray-100 rounded-lg hidden md:block">
           <thead>
             <tr>
               <th className="py-2 px-4 border-b">MÉDICO</th>
@@ -50,9 +50,9 @@ const DoctorsTable: React.FC<DoctorsTableProps> = ({ doctors }) => {
             ))}
           </tbody>
         </table>
-        <div className="md:hidden w-full">
+        <div className="md:hidden w-full bg-gray-100 rounded-lg flex flex-col gap-4">
           {filteredDoctors.map((doctor, index) => (
-            <div key={index} className="mb-4 p-4 border bg-white rounded-lg shadow-md">
+            <div key={index} className="bg-gray-100 p-4 border border-green-600 rounded-lg">
               <div className="font-bold text-xl mb-2">{doctor.name}</div>
               <div className="mb-2"><strong>Especialidade:</strong> {doctor.especialidade}</div>
               <div><strong>Orientações:</strong> {doctor.orientacoes}</div>
