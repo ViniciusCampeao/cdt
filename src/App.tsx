@@ -9,8 +9,9 @@ import LoginPage from "./pages/LoginPage";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Dashboard from "./pages/Dashboard";
-import Arts from "./pages/Arts";
 import Extract from "./pages/Extract";
+import ImportantNumbers from "./components/ContactTable";
+import DoctorsContact from "./components/Doctors/partials/DoctorsProps";
 
 init("PH7ve0_A2N2UWzCRI");
 
@@ -26,8 +27,9 @@ const App: React.FC = () => {
         <Route path="/planilha" element={<Planilha />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/arts" element={<Arts />} />
+        <Route path="/doctors" element={<DoctorsContact />} />
         <Route path="/extract" element={<Extract />} />
+        <Route path="/importantNumbers" element={<ImportantNumbers />} />
       </Routes>
     </Router>
   );

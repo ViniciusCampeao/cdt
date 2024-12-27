@@ -13,7 +13,8 @@ const AdminDashboard: React.FC = () => {
           <div className="space-y-4">
             <DashboardButton label="Planilha" path="/planilha" />
             <DashboardButton label="Extração de números" path="/extract" />
-            <DashboardButton label="Artes" path="/arts" />
+            <DashboardButton label="Tabela de médicos" path="/doctors" />
+            <DashboardButton label="Contatos importantes" path="/importantNumbers" />
           </div>
         </div>
       </div>
