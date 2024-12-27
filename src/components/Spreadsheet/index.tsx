@@ -64,7 +64,7 @@ const Planilha: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen md:p-10 p-4 bg-gray-100">
-      <div className="text-left p-6 bg-white rounded-lg shadow-lg w-full max-w-2xl">
+      <div className="text-left p-6 bg-white rounded-lg shadow-lg w-full max-w-2xl mt-12">
         <h2 className="text-3xl font-bold text-green-700 mb-6 text-center">Planilha</h2>
         <Form
           recordData={recordData}
