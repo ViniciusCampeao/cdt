@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard";
 import Extract from "./pages/Extract";
 import ImportantNumbers from "./components/ContactTable";
 import DoctorsContact from "./components/Doctors/partials/DoctorsProps";
+import ChatWithHuggingFace from "./components/ChatIA";
 
 init("PH7ve0_A2N2UWzCRI");
 
@@ -30,6 +31,7 @@ const App: React.FC = () => {
         <Route path="/doctors" element={<DoctorsContact />} />
         <Route path="/extract" element={<Extract />} />
         <Route path="/importantNumbers" element={<ImportantNumbers />} />
+        <Route path="/chatIA" element={<ChatWithHuggingFace />} />
       </Routes>
     </Router>
   );

@@ -59,6 +59,11 @@ const Header: React.FC = () => {
         <a href="/about" className="text-white font-light mr-4">
           SOBRE 
         </a>
+        {user && user.isAdmin && (
+          <a href="/admin" className="text-white font-light mr-4">
+            DASHBOARD
+          </a>
+        )}
         {user ? (
           <div className="relative">
             <button onClick={toggleProfileMenu} className="text-white font-bold text-xl bg-green-600 rounded-full w-10 h-10 flex items-center justify-center">
@@ -66,11 +71,6 @@ const Header: React.FC = () => {
             </button>
             {profileMenuOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2">
-                {user.isAdmin && (
-                  <Link to="/admin" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">
-                    Dashboard
-                  </Link>
-                )}
                 <button
                   onClick={handleSignOut}
                   className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200"
@@ -108,6 +108,11 @@ const Header: React.FC = () => {
         <a href="/about" className="text-white font-light py-2" onClick={toggleMenu}>
           SOBRE
         </a>
+        {user && user.isAdmin && (
+          <a href="/admin" className="text-white font-light py-2" onClick={toggleMenu}>
+            DASHBOARD
+          </a>
+        )}
         {user ? (
           <>
             <button onClick={toggleProfileMenu} className="text-white font-bold text-xl bg-green-600 rounded-full w-10 h-10 flex items-center justify-center mb-2">
@@ -115,11 +120,6 @@ const Header: React.FC = () => {
             </button>
             {profileMenuOpen && (
               <div className="w-full flex flex-col items-center bg-green-500">
-                {user.isAdmin && (
-                  <Link to="/admin" className="text-white font-light py-2" onClick={toggleMenu}>
-                    Dashboard
-                  </Link>
-                )}
                 <button
                   onClick={handleSignOut}
                   className="text-white font-light py-2"

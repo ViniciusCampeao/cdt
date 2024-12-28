@@ -15,6 +15,7 @@ const AdminDashboard: React.FC = () => {
             <DashboardButton label="Extração de números" path="/extract" />
             <DashboardButton label="Tabela de médicos" path="/doctors" />
             <DashboardButton label="Contatos importantes" path="/importantNumbers" />
+            <DashboardButton label="Chat IA para textos" path="/chatIA" />
           </div>
         </div>
       </div>
