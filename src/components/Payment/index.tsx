@@ -72,7 +72,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
             <span>Vantagens exclusivas em <strong>parceiros</strong></span>
           </li>
         </ul>
-        <p className="mt-6 text-xl font-semibold text-gray-800">Valor: 12 parcelas de R$ 29,70</p>
+        <p className="mt-6 text-xl font-semibold text-gray-800">Valor: 12 parcelas de R$ 30,90</p>
       </div>
       <div className="form-section text-left p-6 bg-white rounded shadow-lg w-full md:max-w-xl mt-8">
         <form
