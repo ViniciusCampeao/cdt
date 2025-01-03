@@ -5,10 +5,12 @@ const PhoneExtractor: React.FC = () => {
   const [phones, setPhones] = useState<{ number: string; checked: boolean }[]>([]);
 
   const extractPhoneNumbers = (inputText: string) => {
-    const phonePattern = /\b(\d{10,11})\b/g;
+    // Atualize a expressão regular para corresponder a números com 8 a 13 dígitos
+    const phonePattern = /\b(\d{8,13})\b/g;
     const matches = inputText.match(phonePattern);
     if (matches) {
       const formattedNumbers = matches.map(number => {
+        // Formate os números conforme necessário
         if (number.length === 10) {
           return { number: number.slice(0, 2) + '9' + number.slice(2), checked: false };
         }
