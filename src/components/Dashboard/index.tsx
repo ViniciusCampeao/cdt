@@ -16,6 +16,7 @@ const AdminDashboard: React.FC = () => {
             <DashboardButton label="Tabela de médicos" path="/doctors" />
             <DashboardButton label="Contatos importantes" path="/importantNumbers" />
             <DashboardButton label="Chat IA para textos" path="/chatIA" />
+            <DashboardButton label="BOT Whatsapp" path="/BotWpp" />
           </div>
         </div>
       </div>

@@ -13,6 +13,8 @@ import Extract from "./pages/Extract";
 import ImportantNumbers from "./components/ContactTable";
 import DoctorsContact from "./components/Doctors/partials/DoctorsProps";
 import ChatWithHuggingFace from "./components/ChatIA";
+import WhatsAppBot from "./components/WhatsAppBot";
+import Instrucoes from "./components/Instrucoes/index.tsx";
 
 init("PH7ve0_A2N2UWzCRI");
 
@@ -32,6 +34,8 @@ const App: React.FC = () => {
         <Route path="/extract" element={<Extract />} />
         <Route path="/importantNumbers" element={<ImportantNumbers />} />
         <Route path="/chatIA" element={<ChatWithHuggingFace />} />
+        <Route path="/BotWPP" element={<WhatsAppBot />} />
+        <Route path="/instrucoes" element={<Instrucoes />} />
       </Routes>
     </Router>
   );
