@@ -1,7 +1,7 @@
 import React from "react";
 import emailjs from '@emailjs/browser';
 import { useNavigate } from 'react-router-dom';
-import "./partials/styles.css";
+import { FaRegCreditCard, FaRegCalendarAlt, FaRegIdCard } from 'react-icons/fa';
 
 interface PaymentFormProps {
   onSubmit: () => void;
@@ -47,11 +47,9 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
     );
   };
 
-
-
   return (
-    <div className="flex flex-col md:flex-row md:gap-6 justify-center p-10 bg-gray-100">
-      <div className="benefits-section text-left p-6 bg-white rounded shadow-lg w-full md:max-w-xl mt-8">
+    <div className="flex flex-col md:flex-row md:gap-6 justify-center p-10 bg-gray-100 text-white">
+      <div className="benefits-section text-left p-6 bg-white text-gray-800 rounded-lg shadow-2xl w-full md:max-w-xl mt-8">
         <h2 className="text-3xl font-bold text-green-700 mb-4">Cartão de Todos</h2>
         <p className="mb-4 text-gray-600">Benefícios exclusivos para você:</p>
         <ul className="benefits-list space-y-4 text-gray-700">
@@ -72,9 +70,8 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
             <span>Vantagens exclusivas em <strong>parceiros</strong></span>
           </li>
         </ul>
-        <p className="mt-6 text-xl font-semibold text-gray-800">Valor: 12 parcelas de R$ 30,90</p>
       </div>
-      <div className="form-section text-left p-6 bg-white rounded shadow-lg w-full md:max-w-xl mt-8">
+      <div className="form-section text-left p-6 bg-white text-gray-800 rounded-lg shadow-2xl w-full md:max-w-xl mt-8">
         <form
           id="payment-form"
           onSubmit={(e) => {
@@ -94,78 +91,82 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
           className="space-y-4"
         >
           <h2 className="text-2xl font-bold text-green-700 mb-4">Dados do Pagamento</h2>
-          <div>
+          <div className="relative">
             <label className="block text-sm font-medium text-gray-700">Nome</label>
             <input
               type="text"
               name="name"
               placeholder="Seu Nome"
               required
-              className="input bg-gray-100 border border-green-500 rounded-lg p-2"
+              className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
             />
+            <FaRegIdCard className="absolute left-3 top-1/2 text-gray-400" />
           </div>
-          <div>
+          <div className="relative">
             <label className="block text-sm font-medium text-gray-700">CPF</label>
             <input
               type="text"
               name="cpf"
               placeholder="000.000.000-00"
               required
-              className="input bg-gray-100 border border-green-500 rounded-lg p-2"
+              className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
               onInput={(e) => validateCPF(e.currentTarget)}
             />
+            <FaRegIdCard className="absolute left-3 top-1/2 text-gray-400" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Tipo de Cartão</label>
             <select
               name="card_type"
               required
-              className="input bg-gray-100 border border-green-500 rounded-lg p-2"
+              className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full"
             >
               <option value="Débito">Débito</option>
               <option value="Crédito">Crédito</option>
             </select>
           </div>
-          <div>
+          <div className="relative">
             <label className="block text-sm font-medium text-gray-700">Número do Cartão</label>
             <input
               type="text"
               name="card_number"
               placeholder="1234 5678 9012 3456"
               required
-              className="input bg-gray-100 border border-green-500 rounded-lg p-2"
+              className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
               onInput={(e) => validateCardNumber(e.currentTarget)}
             />
+            <FaRegCreditCard className="absolute left-3 top-1/2 text-gray-400" />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div>
+            <div className="relative">
               <label className="block text-sm font-medium text-gray-700">Data de Validade</label>
               <input
                 type="text"
                 name="expiry_date"
                 placeholder="MM/YY"
                 required
-                className="input bg-gray-100 border border-green-500 rounded-lg p-2"
+                className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
                 onInput={(e) => validateExpiryDate(e.currentTarget)}
               />
+              <FaRegCalendarAlt className="absolute left-3 top-1/2 text-gray-400" />
             </div>
-            <div>
+            <div className="relative">
               <label className="block text-sm font-medium text-gray-700">CVV</label>
               <input
                 type="text"
                 name="cvv"
                 placeholder="123"
                 required
-                className="input bg-gray-100 border border-green-500 rounded-lg p-2"
+                className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
                 onInput={(e) => validateCVV(e.currentTarget)}
               />
+              <FaRegCreditCard className="absolute left-3 top-1/2 text-gray-400" />
             </div>
           </div>
-          
           <input
             type="submit"
             value="Finalizar"
-            className="bg-green-600 text-white w-full py-3 rounded-lg cursor-pointer hover:bg-green-700"
+            className="bg-gradient-to-r from-green-400 to-green-600 text-white w-full py-3 rounded-lg cursor-pointer hover:bg-green-700 transition-all duration-300 transform hover:scale-105"
           />
         </form>
       </div>
