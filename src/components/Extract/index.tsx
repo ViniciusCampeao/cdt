@@ -33,32 +33,32 @@ const PhoneExtractor: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center bg-green-100 p-8 rounded-lg max-w-xl mx-auto my-12">
-      <h1 className="font-sans text-2xl mb-5">Extração e correção de Números de Telefone</h1>
-      <label htmlFor="numeros" className="mb-2 font-sans text-lg">
+    <div className="flex flex-col items-center bg-green-100 p-8 rounded-lg max-w-xl mx-3 md:mx-auto my-12">
+      <h1 className="font-sans  md:text-2xl mb-5 text-center">Extração e correção de Números de Telefone</h1>
+      <label htmlFor="numeros" className="mb-2 font-sans md:text-lg">
         Insira os números:
       </label>
       <textarea
         id="numeros"
         rows={10}
-        className="w-full p-2 font-sans text-base border-2 border-green-500 rounded-lg mb-5"
+        className="w-full p-2 font-sans text-base border-2 border-green-500 rounded-lg md:h-full h-40 mb-5"
         value={numeros}
         onChange={(e) => setNumeros(e.target.value)}
       />
       <button
         onClick={processar}
-        className="px-4 py-2 text-lg bg-green-500 text-white border-none rounded-lg cursor-pointer mb-5"
+        className="px-4 py-2 md:text-lg bg-green-500 text-white border-none rounded-lg cursor-pointer mb-5"
       >
         Corrigir Números
       </button>
-      <label htmlFor="numerosCorrigidos" className="mb-2 font-sans text-lg">
+      <label htmlFor="numerosCorrigidos" className="mb-2 font-sans md:text-lg">
         Números Corrigidos:
       </label>
       <textarea
         id="numerosCorrigidos"
         rows={5}
         readOnly
-        className="w-full p-2 font-sans text-base border-2 border-green-500 rounded-lg mb-5"
+        className="w-full p-2 font-sans text-base border-2 border-green-500 rounded-lg md:h-full h-40 mb-5"
         value={numerosCorrigidos}
       />
     </div>
