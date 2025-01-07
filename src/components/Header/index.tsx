@@ -92,9 +92,10 @@ const Header: React.FC = () => {
         </button>
       </div>
       <div
-        className={`fixed top-0 right-0 h-full w-full bg-green-500 shadow-lg md:hidden flex flex-col items-center justify-center transition-transform duration-300 transform ${
+        className={`fixed inset-0 bg-green-500 shadow-lg md:hidden flex flex-col items-center justify-center transition-transform duration-300 transform ${
           menuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
+        style={{ zIndex: 20 }}
       >
         <button onClick={toggleMenu} className="absolute top-4 right-4 text-white text-3xl">
           <FaTimes />
