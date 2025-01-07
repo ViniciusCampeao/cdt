@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface DashboardButtonProps {
   label: string;
@@ -7,15 +7,10 @@ interface DashboardButtonProps {
 }
 
 const DashboardButton: React.FC<DashboardButtonProps> = ({ label, path }) => {
-  const navigate = useNavigate();
-
   return (
-    <button
-      onClick={() => navigate(path)}
-      className="bg-green-600 text-white w-full py-3 rounded-lg hover:bg-green-700 transition"
-    >
+    <Link to={path} className="block p-4 bg-green-500 text-white text-center rounded-lg shadow-md hover:bg-green-600 transition duration-200">
       {label}
-    </button>
+    </Link>
   );
 };
 
