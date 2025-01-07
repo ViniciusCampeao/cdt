@@ -1,7 +1,6 @@
 import React from "react";
 import emailjs from '@emailjs/browser';
 import { useNavigate } from 'react-router-dom';
-import { FaRegCreditCard, FaRegCalendarAlt, FaRegIdCard } from 'react-icons/fa';
 
 interface PaymentFormProps {
   onSubmit: () => void;
@@ -49,10 +48,10 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
 
   return (
     <div className="flex flex-col md:flex-row md:gap-6 justify-center p-10 bg-gray-100 text-white">
-      <div className="benefits-section text-left p-6 bg-white text-gray-800 rounded-lg shadow-2xl w-full md:max-w-xl mt-8">
+      <div className="text-left p-6 bg-white text-gray-800 rounded-lg shadow-2xl w-full md:max-w-xl mt-8">
         <h2 className="text-3xl font-bold text-green-700 mb-4">Cartão de Todos</h2>
         <p className="mb-4 text-gray-600">Benefícios exclusivos para você:</p>
-        <ul className="benefits-list space-y-4 text-gray-700">
+        <ul className=" space-y-4 text-gray-700">
           <li className="flex items-start">
             <span className="text-green-500 text-2xl mr-3">✔️</span>
             <span>Descontos em <strong>consultas médicas</strong></span>
@@ -91,19 +90,18 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
           className="space-y-4"
         >
           <h2 className="text-2xl font-bold text-green-700 mb-4">Dados do Pagamento</h2>
-          <div className="relative">
-            <label className="block text-sm font-medium text-gray-700">Nome</label>
+          <div>
+            <label className="text-sm font-medium text-gray-700">Nome</label>
             <input
               type="text"
               name="name"
               placeholder="Seu Nome"
               required
-              className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
+              className=" bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
             />
-            <FaRegIdCard className="absolute left-3 top-1/2 text-gray-400" />
           </div>
-          <div className="relative">
-            <label className="block text-sm font-medium text-gray-700">CPF</label>
+          <div>
+            <label className="text-sm font-medium text-gray-700">CPF</label>
             <input
               type="text"
               name="cpf"
@@ -112,10 +110,9 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
               className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
               onInput={(e) => validateCPF(e.currentTarget)}
             />
-            <FaRegIdCard className="absolute left-3 top-1/2 text-gray-400" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Tipo de Cartão</label>
+            <label className="text-sm font-medium text-gray-700">Tipo de Cartão</label>
             <select
               name="card_type"
               required
@@ -125,8 +122,8 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
               <option value="Crédito">Crédito</option>
             </select>
           </div>
-          <div className="relative">
-            <label className="block text-sm font-medium text-gray-700">Número do Cartão</label>
+          <div>
+            <label className="text-sm font-medium text-gray-700">Número do Cartão</label>
             <input
               type="text"
               name="card_number"
@@ -135,11 +132,10 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
               className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
               onInput={(e) => validateCardNumber(e.currentTarget)}
             />
-            <FaRegCreditCard className="absolute left-3 top-1/2 text-gray-400" />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="relative">
-              <label className="block text-sm font-medium text-gray-700">Data de Validade</label>
+            <div>
+              <label className="text-sm font-medium text-gray-700">Data de Validade</label>
               <input
                 type="text"
                 name="expiry_date"
@@ -148,10 +144,9 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
                 className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
                 onInput={(e) => validateExpiryDate(e.currentTarget)}
               />
-              <FaRegCalendarAlt className="absolute left-3 top-1/2 text-gray-400" />
             </div>
-            <div className="relative">
-              <label className="block text-sm font-medium text-gray-700">CVV</label>
+            <div>
+              <label className="text-sm font-medium text-gray-700">CVV</label>
               <input
                 type="text"
                 name="cvv"
@@ -160,7 +155,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
                 className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
                 onInput={(e) => validateCVV(e.currentTarget)}
               />
-              <FaRegCreditCard className="absolute left-3 top-1/2 text-gray-400" />
             </div>
           </div>
           <input

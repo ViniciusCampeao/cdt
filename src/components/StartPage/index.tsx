@@ -4,7 +4,7 @@ import { FaRegLifeRing } from 'react-icons/fa';
 const StartPage: React.FC = () => {
   return (
     <div className="bg-gray-100 flex items-center justify-center h-screen">
-      <div className="flex flex-col items-center justify-center w-full max-w-lg bg-white p-8 shadow-2xl rounded-lg">
+      <div className="flex flex-col items-center justify-center w-full max-w-lg bg-white p-8 shadow-2xl rounded-lg m-3">
         <h1 className="text-4xl font-bold text-green-500 mb-6 text-center animate-pulse">
           Bem-vindo à Forma de Arrecadação
         </h1>
