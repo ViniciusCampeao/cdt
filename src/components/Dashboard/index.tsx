@@ -69,6 +69,9 @@ const AdminDashboard: React.FC = () => {
           <DashboardButton label="Chat IA para textos" path="/chatIA" />
           <DashboardButton label="Extração de números" path="/extract" />
           <DashboardButton label="BOT Whatsapp" path="/BotWpp" />
+          <DashboardButton label="VPN" path="/Vpn" />
+          <DashboardButton label="Aplicativo" path="/APK" />
+          <DashboardButton label="Lista de Contatos" path="/contactList" />
         </div>
       </div>
       <Footer />
