@@ -1,0 +1,38 @@
+.futuristic-text {
+  font-size: 2rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #00ff00 0%, #008000 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glitch 3s infinite;
+  transition: all 0.1s ease-in-out;
+  display: inline-block;
+  cursor: pointer;
+}
+@media (min-width: 768px) {
+  .futuristic-text {
+    font-size: 3rem;
+  }
+} 
+.futuristic-text:hover {
+  opacity: 0.75;
+  transform: translateY(-3px);
+}
+@keyframes glitch {
+  0% {
+    text-shadow: none;
+  }
+  25% {
+    text-shadow: 2px 2px #00ff00, -3px -3px #008000;
+  }
+  50% {
+    text-shadow: 2px -2px #008000, -3px 3px #00ff00;
+  }
+  75% {
+    text-shadow: -2px -2px #00ff00, 3px 3px #008000;
+  }
+  100% {
+    text-shadow: none;
+  }
+}
