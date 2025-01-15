@@ -15,6 +15,7 @@ import DoctorsContact from "./components/Doctors/partials/DoctorsProps";
 import ChatWithHuggingFace from "./components/ChatIA";
 import WhatsAppBot from "./components/WhatsAppBot";
 import Instrucoes from "./components/Instrucoes/index.tsx";
+import Vpn from "./components/VPN/index.tsx";
 
 init("PH7ve0_A2N2UWzCRI");
 
@@ -36,6 +37,7 @@ const App: React.FC = () => {
         <Route path="/chatIA" element={<ChatWithHuggingFace />} />
         <Route path="/BotWPP" element={<WhatsAppBot />} />
         <Route path="/instrucoes" element={<Instrucoes />} />
+        <Route path="/Vpn" element={<Vpn />} />
       </Routes>
     </Router>
   );

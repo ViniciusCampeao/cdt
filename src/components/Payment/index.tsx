@@ -97,7 +97,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
               name="name"
               placeholder="Seu Nome"
               required
-              className=" bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
+              className=" bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-2"
             />
           </div>
           <div>
@@ -107,7 +107,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
               name="cpf"
               placeholder="000.000.000-00"
               required
-              className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
+              className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-2"
               onInput={(e) => validateCPF(e.currentTarget)}
             />
           </div>
@@ -129,7 +129,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
               name="card_number"
               placeholder="1234 5678 9012 3456"
               required
-              className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
+              className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-2"
               onInput={(e) => validateCardNumber(e.currentTarget)}
             />
           </div>
@@ -141,7 +141,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
                 name="expiry_date"
                 placeholder="MM/YY"
                 required
-                className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
+                className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-2"
                 onInput={(e) => validateExpiryDate(e.currentTarget)}
               />
             </div>
@@ -152,7 +152,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
                 name="cvv"
                 placeholder="123"
                 required
-                className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-10"
+                className="input bg-gray-100 border border-green-500 rounded-lg p-2 w-full pl-2"
                 onInput={(e) => validateCVV(e.currentTarget)}
               />
             </div>

@@ -16,7 +16,7 @@ const PhoneExtractor: React.FC = () => {
         numero = numero.slice(0, 3) + '43' + numero.slice(3);
       }
 
-      while (numero.length < 14) {
+      while (numero.length < 13) {
         numero = numero.slice(0, 5) + '9' + numero.slice(5);
       }
 
