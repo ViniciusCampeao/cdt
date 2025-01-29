@@ -18,6 +18,7 @@ import Instrucoes from "./components/Instrucoes/index.tsx";
 import Vpn from "./components/VPN/index.tsx";
 import APK from "./components/APK/index.tsx";
 import ContactList from "./components/ContactList";
+import PhoneToTim from "./components/Extract/ToTim.tsx";
 
 init("PH7ve0_A2N2UWzCRI");
 
@@ -42,6 +43,7 @@ const App: React.FC = () => {
         <Route path="/Vpn" element={<Vpn />} />
         <Route path="/Apk" element={<APK />} />
         <Route path="/contactList" element={<ContactList />} />
+        <Route path="/tim" element={<PhoneToTim />} />
       </Routes>
     </Router>
   );
