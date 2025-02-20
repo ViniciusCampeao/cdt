@@ -1,14 +1,18 @@
 import React from "react";
+import { FaSpinner } from "react-icons/fa";
 
 const ThankYouPage: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-10 px-4">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full text-center">
         <h1 className="text-4xl font-bold text-green-700 mb-6">
-          Obrigado pelo seu pagamento e confiança no nosso time!
+          Obrigado pela confiança no nosso time!
         </h1>
         <p className="text-gray-700 mb-4">
-          Entraremos em contato caso tenha ocorrido algum problema com a transação!
+          Seu pagamento está em análise. <FaSpinner className="inline-block animate-spin" />
+        </p>
+        <p className="text-gray-700 mb-4">
+          Se ocorrer algum problema, nossas vendedoras entrarão em contato!
         </p>
         <p className="text-gray-700">
           Caso tenha alguma dúvida, entre em 
