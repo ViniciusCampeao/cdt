@@ -21,9 +21,10 @@ const AdminDashboard: React.FC = () => {
           <DashboardButton label="Extração de números" path="/extract" />
           <DashboardButton label="BOT Whatsapp" path="/BotWpp" />
           <DashboardButton label="VPN" path="/Vpn" />
-          <DashboardButton label="Aplicativo" path="/APK" />
+          <DashboardButton label="Links uteis" path="/APK" />
           <DashboardButton label="Lista de Contatos" path="/contactList" />
           <DashboardButton label="Extrair números para TIM" path="/tim" />
+          <DashboardButton label="BI" path="/bi" />
         </div>
       </div>
       <Footer />

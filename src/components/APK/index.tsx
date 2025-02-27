@@ -7,8 +7,8 @@ const APK = () => {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(() => {
-      setCopied(`Link copiado: ${text}`);
-      setTimeout(() => setCopied(""), 3000);
+      setCopied(`Copiado: ${text}`);
+      setTimeout(() => setCopied(""), 2000);
     }).catch(err => {
       console.error("Erro ao copiar o texto:", err);
     });
@@ -31,6 +31,12 @@ const APK = () => {
             className="text-center bg-green-500 text-white font-bold py-2 px-4 rounded w-full mt-6"
           >
             Copiar link da App Store
+          </button>
+        <button
+            onClick={() => copyToClipboard('🔴 Para pedir o cancelamento você pode acessar o link🔗 https://www.cartaodetodos.com.br/contato/\nPreencher Cancelamento como assunto, os campos obrigatórios(nome completo, email, número de celular e CPF) e enviar o formulário.\n\nVocê pode também entrar em contato pelo número☎️ 0800 729 2071 E pedir seu cancelamento.')}
+            className="text-center bg-green-500 text-white font-bold py-2 px-4 rounded w-full mt-6"
+          >
+            Copiar mensagem de cancelamento
           </button>
         </div>
         {copied && <p className="text-green-700 font-bold mt-4">{copied}</p>}
