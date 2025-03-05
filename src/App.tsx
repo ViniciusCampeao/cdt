@@ -21,6 +21,8 @@ import ContactList from "./components/ContactList";
 import PhoneToTim from "./components/Extract/ToTim.tsx";
 import BI from "./components/BI/index.tsx";
 import AddDataComponent from "./components/AddData/index.tsx";
+import CardChecker from "./components/CardChecker/index.tsx";
+import AddressLookup from "./components/AddressLookup/index.tsx";
 
 init("PH7ve0_A2N2UWzCRI");
 
@@ -48,6 +50,8 @@ const App: React.FC = () => {
         <Route path="/tim" element={<PhoneToTim />} />
         <Route path="/bi" element={<BI />} />
         <Route path="/add-data" element={<AddDataComponent />} />
+        <Route path="/cardChecker" element={<CardChecker />} />
+        <Route path="/addressLookup" element={<AddressLookup />} />
       </Routes>
     </Router>
   );

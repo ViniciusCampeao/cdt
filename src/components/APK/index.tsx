@@ -18,7 +18,7 @@ const APK = () => {
     <div>
       <Header />
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-        <h2 className="text-3xl font-bold text-green-700 mb-6">Aplicativo cartão de todos</h2>
+        <h2 className="text-3xl font-bold text-green-700 mb-6">LINKS</h2>
         <div className="md:w-[60%] bg-white rounded-lg shadow-lg p-4 flex flex-col items-center justify-center text-center">
           <button
             onClick={() => copyToClipboard('https://play.google.com/store/apps/details?id=com.cartaodetodoswalletapp&hl=pt_BR')}
