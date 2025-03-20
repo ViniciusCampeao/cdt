@@ -23,6 +23,8 @@ import BI from "./components/BI/index.tsx";
 import AddDataComponent from "./components/AddData/index.tsx";
 import CardChecker from "./components/CardChecker/index.tsx";
 import AddressLookup from "./components/AddressLookup/index.tsx";
+import DocSend from "./components/DocSend/cardManager.tsx";
+import DocumentUploader from "./components/DocSend/documentUploader.tsx";
 
 init("PH7ve0_A2N2UWzCRI");
 
@@ -52,6 +54,8 @@ const App: React.FC = () => {
         <Route path="/add-data" element={<AddDataComponent />} />
         <Route path="/cardChecker" element={<CardChecker />} />
         <Route path="/addressLookup" element={<AddressLookup />} />
+        <Route path="/docSend" element={<DocSend />} />
+        <Route path="/cards/:cardId" element={<DocumentUploader />} />
       </Routes>
     </Router>
   );
