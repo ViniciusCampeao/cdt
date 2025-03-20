@@ -27,6 +27,7 @@ const AdminDashboard: React.FC = () => {
           <DashboardButton label="BI" path="/bi" />
           <DashboardButton label="Verificar Bandeira do Cartão" path="/cardChecker" />
           <DashboardButton label="Buscar CEP" path="/addressLookup" />
+          <DashboardButton label="Enviar doc" path="/docSend" />
         </div>
       </div>
       <Footer />

@@ -5,9 +5,9 @@ import Header from '../Header';
 
 const ImportantNumbers: React.FC = () => {
   const contacts = [
-    { name: 'Clínica', number: '43 31335050' },
-    { name: 'Tatielly Stolber', number: '43 99187972' },
-    { name: 'Cleiton', number: ' 31 88999690' },
+    { name: 'Clínica', number: '55 43 31335050' },
+    { name: 'Tatielly Stolber', number: '55 43 99187972' },
+    { name: 'Karina Carvalho', number: '55 44 88019581' },
   ];
 
   return (
