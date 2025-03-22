@@ -25,6 +25,7 @@ import CardChecker from "./components/CardChecker/index.tsx";
 import AddressLookup from "./components/AddressLookup/index.tsx";
 import DocSend from "./components/DocSend/cardManager.tsx";
 import DocumentUploader from "./components/DocSend/documentUploader.tsx";
+import FileToPdfConverter from "./components/PdfConvert/index.tsx";
 
 init("PH7ve0_A2N2UWzCRI");
 
@@ -56,6 +57,7 @@ const App: React.FC = () => {
         <Route path="/addressLookup" element={<AddressLookup />} />
         <Route path="/docSend" element={<DocSend />} />
         <Route path="/cards/:cardId" element={<DocumentUploader />} />
+        <Route path="/pdfConvert" element={<FileToPdfConverter />} />
       </Routes>
     </Router>
   );

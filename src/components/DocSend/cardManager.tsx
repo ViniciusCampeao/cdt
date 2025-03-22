@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { db, auth } from "../../services/firebaseConfig";
-import { collection, addDoc, query, where, getDocs, deleteDoc, doc, updateDoc, DocumentData } from "firebase/firestore"; // Adicionado updateDoc
+import {
+  collection,
+  addDoc,
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc,
+  DocumentData,
+} from "firebase/firestore"; // Adicionado updateDoc
 import { useNavigate } from "react-router-dom";
 import { User } from "firebase/auth";
 import Header from "../Header";
@@ -13,6 +23,7 @@ const CardManager: React.FC = () => {
   const [filterName, setFilterName] = useState<string>(""); // Filtro por nome
   const [filterDate, setFilterDate] = useState<string>(""); // Filtro por data
   const [user, setUser] = useState<User | null>(null);
+  const [pageTitle, setPageTitle] = useState<string>("Gerenciador de Documentação"); // Estado para título
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +37,10 @@ const CardManager: React.FC = () => {
 
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    document.title = pageTitle; // Atualizar o título do documento
+  }, [pageTitle]); // Mudança no título do estado
 
   const fetchCards = async (user: User) => {
     try {
@@ -50,12 +65,14 @@ const CardManager: React.FC = () => {
   const addCard = async () => {
     if (!cardName.trim() || !user) return;
     try {
-      await addDoc(collection(db, "cards"), {
+      const newCard = {
         name: cardName,
         userId: user.uid,
         createdAt: new Date(), // Adicionando a data de criação
         color: "white", // Cor inicial
-      });
+      };
+      await addDoc(collection(db, "cards"), newCard);
+      setPageTitle(cardName); // Atualizar título com o nome do card
       setCardName("");
       fetchCards(user);
     } catch (error) {
@@ -65,6 +82,10 @@ const CardManager: React.FC = () => {
   };
 
   const toggleSelectCard = (cardId: string) => {
+    const card = cards.find((card) => card.id === cardId);
+    if (card) {
+      setPageTitle(card.name); // Atualizar título com o nome do card selecionado
+    }
     setSelectedCards((prev) =>
       prev.includes(cardId) ? prev.filter((id) => id !== cardId) : [...prev, cardId]
     );
@@ -74,6 +95,7 @@ const CardManager: React.FC = () => {
     if (!user || selectedCards.length === 0) return;
     try {
       await Promise.all(selectedCards.map((cardId) => deleteDoc(doc(db, "cards", cardId))));
+      setPageTitle("Gerenciador de Documentação"); // Resetar título após exclusão
       setSelectedCards([]);
       fetchCards(user);
     } catch (error) {
@@ -88,9 +110,7 @@ const CardManager: React.FC = () => {
       const cardRef = doc(db, "cards", cardId);
       await updateDoc(cardRef, { color: newColor }); // Atualiza a cor do card no Firestore
       setCards((prev) =>
-        prev.map((card) =>
-          card.id === cardId ? { ...card, color: newColor} : card
-        )
+        prev.map((card) => (card.id === cardId ? { ...card, color: newColor } : card))
       );
     } catch (error) {
       console.error("Erro ao alterar a cor do card:", error);
@@ -99,7 +119,9 @@ const CardManager: React.FC = () => {
   };
 
   const filteredCards = cards.filter((card) => {
-    const matchesName = filterName ? card.name.toLowerCase().includes(filterName.toLowerCase()) : true;
+    const matchesName = filterName
+      ? card.name.toLowerCase().includes(filterName.toLowerCase())
+      : true;
     const matchesDate = filterDate ? card.createdAt === filterDate : true;
     return matchesName && matchesDate;
   });
@@ -108,7 +130,7 @@ const CardManager: React.FC = () => {
     <div className="flex flex-col h-screen items-center justify-between">
       <Header />
       <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg w-[50%] my-12 shadow">
-        <h1 className="text-xl font-bold mb-4">Gerenciador de Documentação</h1>
+        <h1 className="text-xl font-bold mb-4">{pageTitle}</h1> {/* Exibindo o título dinâmico */}
         <input
           type="text"
           placeholder="PR + Nome vendedor"
@@ -152,15 +174,20 @@ const CardManager: React.FC = () => {
                 onChange={() => toggleSelectCard(card.id)}
                 className="mr-2"
               />
-              <span onClick={() => navigate(`/cards/${card.id}`)} className="flex-1">
+              <span
+                onClick={() => {
+                  navigate(`/cards/${card.id}`);
+                  setPageTitle(card.name); // Atualiza o título ao navegar
+                }}
+                className="flex-1"
+              >
                 {card.name} - {card.createdAt}
               </span>
               <button
-                onClick={() => changeCardColor(card.id, card.color) }
+                onClick={() => changeCardColor(card.id, card.color)}
                 className="text-black px-4 py-2 rounded ml-2 border-2 border-black hover:scale-105 transition-transform duration-200"
-                
               >
-                Atenção
+                Marcar
               </button>
             </div>
           ))}
