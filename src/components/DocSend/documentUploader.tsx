@@ -1,17 +1,33 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { ref, listAll, getDownloadURL, uploadBytes, deleteObject } from "firebase/storage";
-import { storage } from "../../services/firebaseConfig";
+import { doc, getDoc } from "firebase/firestore"; // Para buscar o nome do card
+import { storage, db } from "../../services/firebaseConfig"; // Certifique-se de importar o Firestore
 import Header from "../Header";
 import Footer from "../Footer";
+import FileToPdfConverter from "../PdfConvert";
 
 const DocumentUploader: React.FC = () => {
   const { cardId } = useParams<{ cardId: string }>();
+  const [cardName, setCardName] = useState<string>("Gerenciador de Documentos");
   const [files, setFiles] = useState<File[]>([]);
   const [uploadedFiles, setUploadedFiles] = useState<{ name: string; url: string }[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [renamingFile, setRenamingFile] = useState<string | null>(null);
-  const [newFileName, setNewFileName] = useState<string>("");
+
+  // Buscar o nome do card com base no cardId
+  const fetchCardName = useCallback(async () => {
+    if (!cardId) return;
+    try {
+      const cardDoc = await getDoc(doc(db, "cards", cardId));
+      if (cardDoc.exists()) {
+        const cardData = cardDoc.data();
+        setCardName(cardData.name || "Card Desconhecido");
+        document.title = cardData.name || "Card Desconhecido"; // Atualizar o título da página
+      }
+    } catch (error) {
+      console.error("Erro ao buscar o nome do card:", error);
+    }
+  }, [cardId]);
 
   const fetchUploadedFiles = useCallback(async () => {
     if (!cardId) return;
@@ -35,8 +51,9 @@ const DocumentUploader: React.FC = () => {
   }, [cardId]);
 
   useEffect(() => {
-    fetchUploadedFiles();
-  }, [fetchUploadedFiles]);
+    fetchCardName(); // Buscar o nome do card ao carregar o componente
+    fetchUploadedFiles(); // Buscar os arquivos do card
+  }, [fetchCardName, fetchUploadedFiles]);
 
   const handleUpload = async () => {
     if (!files.length || !cardId) {
@@ -56,29 +73,6 @@ const DocumentUploader: React.FC = () => {
     }
   };
 
-  const handleRename = async (oldName: string) => {
-    if (!cardId || !newFileName.trim()) return;
-    try {
-      const oldFileRef = ref(storage, `documents/${cardId}/${oldName}`);
-      const newFileRef = ref(storage, `documents/${cardId}/${newFileName}`);
-      
-      // Baixar o arquivo original e enviá-lo com o novo nome
-      const response = await fetch(await getDownloadURL(oldFileRef));
-      const blob = await response.blob();
-      await uploadBytes(newFileRef, blob);
-
-      // Excluir o arquivo original
-      await deleteObject(oldFileRef);
-
-      setRenamingFile(null);
-      setNewFileName("");
-      fetchUploadedFiles();
-    } catch (error) {
-      console.error("Erro ao renomear arquivo:", error);
-      alert("Erro ao renomear arquivo. Tente novamente mais tarde.");
-    }
-  };
-
   const handleDelete = async (fileName: string) => {
     if (!cardId) return;
     try {
@@ -94,12 +88,14 @@ const DocumentUploader: React.FC = () => {
   return (
     <div className="flex flex-col h-screen justify-between">
       <Header />
+      <div className="flex flex-col md:flex-row p-4 items-center">
+      <FileToPdfConverter />
       <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg max-w-xl mx-auto my-12">
         {loading ? (
           <p>Carregando...</p>
         ) : (
           <>
-            <h1 className="text-xl font-bold mb-4">Gerenciador de Arquivos</h1>
+            <h1 className="text-xl font-bold mb-4">{cardName}</h1>
             <input
               type="file"
               multiple
@@ -107,57 +103,26 @@ const DocumentUploader: React.FC = () => {
               className="border p-2 rounded w-full mb-2"
             />
             <button onClick={handleUpload} className="bg-green-500 text-white px-4 py-2 rounded mb-4">
-              Enviar Arquivos
+              Enviar
             </button>
             <div className="w-full">
               {uploadedFiles.map((file, index) => (
                 <div key={index} className="flex items-center justify-between bg-white shadow rounded p-2 mb-2">
-                  {renamingFile === file.name ? (
-                    <>
-                      <input
-                        type="text"
-                        value={newFileName}
-                        onChange={(e) => setNewFileName(e.target.value)}
-                        className="border p-2 rounded w-full mr-2"
-                        placeholder="Novo nome do arquivo"
-                      />
-                      <button
-                        onClick={() => handleRename(file.name)}
-                        className="bg-blue-500 text-white px-4 py-2 rounded"
-                      >
-                        Salvar
-                      </button>
-                      <button
-                        onClick={() => setRenamingFile(null)}
-                        className="bg-gray-500 text-white px-4 py-2 rounded"
-                      >
-                        Cancelar
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <a href={file.url} target="_blank" rel="noopener noreferrer" className="flex-1">
-                        {file.name}
-                      </a>
-                      <button
-                        onClick={() => setRenamingFile(file.name)}
-                        className="bg-yellow-500 text-white px-4 py-2 rounded ml-2"
-                      >
-                        Renomear
-                      </button>
-                      <button
-                        onClick={() => handleDelete(file.name)}
-                        className="bg-red-500 text-white px-4 py-2 rounded ml-2"
-                      >
-                        Excluir
-                      </button>
-                    </>
-                  )}
+                  <a href={file.url} target="_blank" rel="noopener noreferrer" className="flex-1">
+                    {file.name}
+                  </a>
+                  <button
+                    onClick={() => handleDelete(file.name)}
+                    className="bg-red-500 text-white px-4 py-2 rounded ml-2"
+                  >
+                    Excluir
+                  </button>
                 </div>
               ))}
             </div>
           </>
         )}
+      </div>
       </div>
       <Footer />
     </div>
