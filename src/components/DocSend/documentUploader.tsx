@@ -1,6 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { ref, listAll, getDownloadURL, uploadBytes, deleteObject } from "firebase/storage";
+import {
+  ref,
+  listAll,
+  getDownloadURL,
+  uploadBytes,
+  deleteObject,
+} from "firebase/storage";
 import { doc, getDoc } from "firebase/firestore"; // Para buscar o nome do card
 import { storage, db } from "../../services/firebaseConfig"; // Certifique-se de importar o Firestore
 import Header from "../Header";
@@ -11,7 +17,9 @@ const DocumentUploader: React.FC = () => {
   const { cardId } = useParams<{ cardId: string }>();
   const [cardName, setCardName] = useState<string>("Gerenciador de Documentos");
   const [files, setFiles] = useState<File[]>([]);
-  const [uploadedFiles, setUploadedFiles] = useState<{ name: string; url: string }[]>([]);
+  const [uploadedFiles, setUploadedFiles] = useState<
+    { name: string; url: string }[]
+  >([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   // Buscar o nome do card com base no cardId
@@ -44,7 +52,9 @@ const DocumentUploader: React.FC = () => {
       setUploadedFiles(filesWithUrls);
     } catch (error) {
       console.error("Erro ao buscar arquivos:", error);
-      alert("Erro ao buscar arquivos. Verifique sua conexão ou tente novamente mais tarde.");
+      alert(
+        "Erro ao buscar arquivos. Verifique sua conexão ou tente novamente mais tarde."
+      );
     } finally {
       setLoading(false);
     }
@@ -57,7 +67,9 @@ const DocumentUploader: React.FC = () => {
 
   const handleUpload = async () => {
     if (!files.length || !cardId) {
-      alert("Selecione arquivos e certifique-se de que um card foi selecionado.");
+      alert(
+        "Selecione arquivos e certifique-se de que um card foi selecionado."
+      );
       return;
     }
     try {
@@ -89,40 +101,61 @@ const DocumentUploader: React.FC = () => {
     <div className="flex flex-col h-screen justify-between">
       <Header />
       <div className="flex flex-col md:flex-row p-4 items-center">
-      <FileToPdfConverter />
-      <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg max-w-xl mx-auto my-12">
-        {loading ? (
-          <p>Carregando...</p>
-        ) : (
-          <>
-            <h1 className="text-xl font-bold mb-4">{cardName}</h1>
-            <input
-              type="file"
-              multiple
-              onChange={(e) => setFiles(Array.from(e.target.files || []))}
-              className="border p-2 rounded w-full mb-2"
-            />
-            <button onClick={handleUpload} className="bg-green-500 text-white px-4 py-2 rounded mb-4">
-              Enviar
-            </button>
-            <div className="w-full">
-              {uploadedFiles.map((file, index) => (
-                <div key={index} className="flex items-center justify-between bg-white shadow rounded p-2 mb-2">
-                  <a href={file.url} target="_blank" rel="noopener noreferrer" className="flex-1">
-                    {file.name}
-                  </a>
-                  <button
-                    onClick={() => handleDelete(file.name)}
-                    className="bg-red-500 text-white px-4 py-2 rounded ml-2"
+        <FileToPdfConverter />
+        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg max-w-xl mx-auto my-12">
+          {loading ? (
+            <p>Carregando...</p>
+          ) : (
+            <>
+              <h1 className="text-xl font-bold mb-4">{cardName}</h1>
+              <input
+                type="file"
+                multiple
+                accept="application/pdf" // Aceitar apenas arquivos PDF
+                onChange={(e) => {
+                  const selectedFiles = Array.from(e.target.files || []);
+                  const onlyPdfFiles = selectedFiles.filter(
+                    (file) => file.type === "application/pdf"
+                  );
+                  if (onlyPdfFiles.length !== selectedFiles.length) {
+                    alert("Apenas arquivos PDF são permitidos.");
+                  }
+                  setFiles(onlyPdfFiles);
+                }}
+                className="border p-2 rounded w-full mb-2"
+              />
+              <button
+                onClick={handleUpload}
+                className="bg-green-500 text-white px-4 py-2 rounded mb-4"
+              >
+                Enviar
+              </button>
+              <div className="w-full">
+                {uploadedFiles.map((file, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between bg-white shadow rounded p-2 mb-2"
                   >
-                    Excluir
-                  </button>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-      </div>
+                    <a
+                      href={file.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1"
+                    >
+                      {file.name}
+                    </a>
+                    <button
+                      onClick={() => handleDelete(file.name)}
+                      className="bg-red-500 text-white px-4 py-2 rounded ml-2"
+                    >
+                      Excluir
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
       </div>
       <Footer />
     </div>
