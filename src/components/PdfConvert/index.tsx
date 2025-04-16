@@ -58,7 +58,7 @@ const FileToPdfConverter: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center p-6 bg-gray-100 rounded-lg max-w-md mx-auto my-12">
+    <div className="flex flex-col items-center p-6 bg-gray-100 rounded-lg max-w-md">
       <h1 className="text-xl font-bold mb-4">Conversor de Arquivos para PDF</h1>
       <input
         type="file"
