@@ -15,7 +15,7 @@ const ContactComponent: React.FC = () => {
       label: "Facebook",
     },
     {
-      href: "https://wa.link/r5g673",
+      href: "https://wa.link/9klbp7",
       icon: <FaWhatsapp size={30} />,
       label: "WhatsApp",
     },
