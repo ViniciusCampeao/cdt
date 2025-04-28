@@ -23,7 +23,7 @@ const AdminDashboard: React.FC = () => {
           <DashboardButton label="Links uteis" path="/APK" />
           <DashboardButton label="Lista de Contatos" path="/contactList" />
           <DashboardButton label="Extrair números para TIM" path="/tim" />
-          <DashboardButton label="BI" path="/bi" />
+          <DashboardButton label="Vendas" path="/sales" />
           <DashboardButton label="Verificar Bandeira do Cartão" path="/cardChecker" />
           <DashboardButton label="Buscar CEP" path="/addressLookup" />
           <DashboardButton label="Enviar doc" path="/docSend" />
