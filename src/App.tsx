@@ -19,7 +19,6 @@ import Vpn from "./components/VPN/index.tsx";
 import APK from "./components/APK/index.tsx";
 import ContactList from "./components/ContactList";
 import PhoneToTim from "./components/Extract/ToTim.tsx";
-import BI from "./components/BI/index.tsx";
 import AddDataComponent from "./components/AddData/index.tsx";
 import CardChecker from "./components/CardChecker/index.tsx";
 import AddressLookup from "./components/AddressLookup/index.tsx";
@@ -27,6 +26,10 @@ import DocSend from "./components/DocSend/cardManager.tsx";
 import DocumentUploader from "./components/DocSend/documentUploader.tsx";
 import FileToPdfConverter from "./components/PdfConvert/index.tsx";
 import Feedback from "./components/Feedback/index.tsx";
+import ADMDASH from "./components/BI/adminBi.tsx";
+import PvdDashboard from "./components/BI/index.tsx";
+import AddSaleForm from "./components/BI/addSaleForm.tsx";
+import Sales from "./components/Sales/index.tsx";
 
 init("PH7ve0_A2N2UWzCRI");
 
@@ -52,7 +55,6 @@ const App: React.FC = () => {
         <Route path="/Apk" element={<APK />} />
         <Route path="/contactList" element={<ContactList />} />
         <Route path="/tim" element={<PhoneToTim />} />
-        <Route path="/bi" element={<BI />} />
         <Route path="/add-data" element={<AddDataComponent />} />
         <Route path="/cardChecker" element={<CardChecker />} />
         <Route path="/addressLookup" element={<AddressLookup />} />
@@ -60,6 +62,10 @@ const App: React.FC = () => {
         <Route path="/cards/:cardId" element={<DocumentUploader />} />
         <Route path="/pdfConvert" element={<FileToPdfConverter />} />
         <Route path="/feedback" element={<Feedback />} />
+        <Route path="/admdash" element={<ADMDASH />} />
+        <Route path="/addsale" element={<AddSaleForm />} />
+        <Route path="/dash" element={<PvdDashboard />} />
+        <Route path="/sales" element={<Sales />} />
       </Routes>
     </Router>
   );

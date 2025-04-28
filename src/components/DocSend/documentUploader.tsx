@@ -89,8 +89,8 @@ const DocumentUploader: React.FC = () => {
     if (!cardId) return;
     try {
       const fileRef = ref(storage, `documents/${cardId}/${fileName}`);
-      await deleteObject(fileRef); // Excluir arquivo do Firebase Storage
-      setUploadedFiles((prev) => prev.filter((file) => file.name !== fileName)); // Atualizar estado local
+      await deleteObject(fileRef);
+      setUploadedFiles((prev) => prev.filter((file) => file.name !== fileName));
     } catch (error) {
       console.error("Erro ao excluir arquivo:", error);
       alert("Erro ao excluir arquivo. Tente novamente mais tarde.");
@@ -103,7 +103,6 @@ const DocumentUploader: React.FC = () => {
       <div className="flex flex-col md:flex-row gap-8 p-4 justify-center flex-grow items-center">
         <FileToPdfConverter />
   
-        {/* Bloco de Upload */}
         <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg max-w-md w-full">
           <h1 className="text-xl font-bold mb-4">{cardName}</h1>
           <input

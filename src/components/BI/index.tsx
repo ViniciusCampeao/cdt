@@ -1,133 +1,243 @@
 import React, { useEffect, useState } from 'react';
-import { Bar, Line } from 'react-chartjs-2';
-import 'chart.js/auto';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { Pie } from 'react-chartjs-2';
+import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
 import { app } from '../../services/firebaseConfig';
-import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
 import Header from '../Header';
 import Footer from '../Footer';
+import { Chart as ChartJS, CategoryScale, LinearScale, ArcElement, Title, Tooltip, Legend } from 'chart.js';
 
-const BIComponent: React.FC = () => {
-  interface ChartData {
-    labels: string[];
-    datasets: {
-      label: string;
-      data: number[];
-      backgroundColor: string;
-      borderColor: string;
-      borderWidth: number;
-    }[];
-  }
+// Registra os componentes necessários do Chart.js
+ChartJS.register(CategoryScale, LinearScale, ArcElement, Title, Tooltip, Legend);
 
-  const [data, setData] = useState<ChartData>({
-    labels: [],
-    datasets: [
-      {
-        label: 'Vendas',
-        data: [],
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
-      },
-      {
-        label: 'Despesas',
-        data: [],
-        backgroundColor: 'rgba(255, 99, 132, 0.6)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
-      },
-    ],
-  });
+interface Sale {
+  status: string;
+  quantidade: number;
+  matricula: string;
+}
 
+interface User {
+  id: string;
+  email: string;
+}
+
+interface ChartData {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    backgroundColor: string[];
+  }[];
+}
+
+const statusColors: Record<string, string> = {
+  cancelado: 'rgba(255, 99, 132, 0.6)',
+  doc: 'rgba(255, 206, 86, 0.6)',
+  ligação: 'rgba(54, 162, 235, 0.6)',
+  ok: 'rgba(75, 192, 192, 0.6)',
+  tudo: 'rgba(153, 102, 255, 0.6)',
+};
+
+const PvdDashboard: React.FC = () => {
+  const [chartData, setChartData] = useState<ChartData | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [salesList, setSalesList] = useState<Sale[]>([]);
+  const auth = getAuth();
   const db = getFirestore(app);
-  const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchUser = () => {
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        setUser({
+          id: currentUser.uid,
+          email: currentUser.email || '',
+        });
+      }
+    };
+
+    fetchUser();
+
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser({
+          id: user.uid,
+          email: user.email || '',
+        });
+      }
+    });
+  }, [auth]);
+
+  useEffect(() => {
+    if (!user?.id) return;
+
     const fetchData = async () => {
-      const querySnapshot = await getDocs(collection(db, 'financialData'));
-      const salesData: number[] = [];
-      const expensesData: number[] = [];
-      const labels: string[] = [];
+      try {
+        const q = query(collection(db, 'sales'), where('vendedorId', '==', user.id));
+        const snapshot = await getDocs(q);
 
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        labels.push(data.date);
-        salesData.push(data.sales);
-        expensesData.push(data.expenses);
-      });
+        const statusCount: Record<string, number> = {
+          cancelado: 0,
+          doc: 0,
+          ligação: 0,
+          ok: 0,
+          tudo: 0,
+        };
 
-      const salesAvg = salesData.reduce((a, b) => a + b, 0) / salesData.length;
-      const expensesAvg = expensesData.reduce((a, b) => a + b, 0) / expensesData.length;
+        const sales: Sale[] = [];
 
-      labels.push('Próximo Mês');
-      salesData.push(salesAvg);
-      expensesData.push(expensesAvg);
+        snapshot.forEach((doc) => {
+          const data = doc.data() as Sale;
+          sales.push({
+            status: data.status,
+            quantidade: data.quantidade || 1,
+            matricula: (doc.data() as any).matricula || 'Sem matrícula',
+          });
 
-      setData({
-        labels,
-        datasets: [
-          {
-            label: 'Vendas',
-            data: salesData,
-            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1,
-          },
-          {
-            label: 'Despesas',
-            data: expensesData,
-            backgroundColor: 'rgba(255, 99, 132, 0.6)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1,
-          },
-        ],
-      });
+          if (data.status && Object.prototype.hasOwnProperty.call(statusCount, data.status)) {
+            statusCount[data.status] += data.quantidade || 1;
+          }
+        });
+
+        const labels = Object.keys(statusCount);
+
+        setSalesList(sales);
+        setChartData({
+          labels,
+          datasets: [
+            {
+              label: 'Vendas por Status',
+              data: labels.map((status) => statusCount[status]),
+              backgroundColor: labels.map((status) => statusColors[status]),
+            },
+          ],
+        });
+      } catch (error) {
+        console.error('Erro ao buscar os dados de vendas:', error);
+      }
     };
 
     fetchData();
-  }, [db]);
+  }, [user, db]);
 
   const options = {
     responsive: true,
-    scales: {
-      y: {
-        beginAtZero: true,
+    plugins: {
+      legend: { position: 'bottom' },
+      tooltip: {
+        callbacks: {
+          label: function (context: import('chart.js').TooltipItem<'pie'>) {
+            const total = context.dataset.data.reduce((a, b) => (a as number) + (b as number), 0) as number;
+            const value = context.raw as number;
+            const percent = total > 0 ? ((value / total) * 100).toFixed(1) : '0';
+            return `${value} vendas (${percent}%)`;
+          },
+        },
       },
     },
   };
 
-  const handleAddDataClick = () => {
-    navigate('/add-data');
-  };
+// (mantém tudo igual até o retorno JSX)
 
-  return (
-    <div>
-
+return (
+  <div>
     <Header />
-    <div className="min-h-screen bg-gray-100 p-10">
-      <h1 className="text-4xl font-bold text-center mb-10">Dashboard Empresarial</h1>
-      <div className="flex justify-end mb-4">
-        <button
-          onClick={handleAddDataClick}
-          className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors duration-200"
-        >
-          Adicionar Dados
-        </button>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold mb-4">Vendas e Despesas</h2>
-          <Bar data={data} options={options} />
+    <main className="p-10 bg-gray-100">
+      <h1 className="text-3xl font-bold text-center mb-8">Minhas Vendas</h1>
+      
+      {chartData ? (
+        <div className="bg-gray-100 p-6 rounded-lg shadow-lg md:w-[40%] md:h-[40%] mx-auto flex items-center justify-center">
+          <Pie data={chartData} options={options} />
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold mb-4">Tendência de Vendas</h2>
-          <Line data={data} options={options} />
+      ) : (
+        <p className="text-center">Carregando dados...</p>
+      )}
+      
+      {/* Tabela de Detalhamento das Vendas */}
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto mt-10">
+        <h2 className="text-2xl font-semibold mb-4 text-center">Detalhamento das Vendas</h2>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Matrícula</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {salesList.length > 0 ? (
+                salesList.map((sale, index) => (
+                  <tr
+                    key={index}
+                    className={sale.status === 'ok' ? 'bg-green-50' : 'bg-yellow-50'}
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap">{sale.matricula}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{sale.status}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={2} className="text-center px-6 py-4">
+                    Nenhuma venda encontrada.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
-    </div>
+
+{/* Tabela de Status + Porcentagem (sem matrícula) */}
+<div className="bg-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto mt-10">
+  <h2 className="text-2xl font-semibold mb-4 text-center">Resumo Percentual das Vendas</h2>
+  <div className="overflow-x-auto">
+    <table className="min-w-full divide-y divide-gray-200">
+      <thead className="bg-gray-50">
+        <tr>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Porcentagem</th>
+        </tr>
+      </thead>
+      <tbody className="bg-white divide-y divide-gray-200">
+        {salesList.length > 0 ? (
+          // Agrupar vendas por status
+          Object.entries(
+            salesList.reduce<Record<string, number>>((acc, sale) => {
+              acc[sale.status] = (acc[sale.status] || 0) + sale.quantidade;
+              return acc;
+            }, {})
+          ).map(([status, quantidade], index, array) => {
+            const totalQuantity = array.reduce((acc, [, qty]) => acc + qty, 0);
+            const percent = totalQuantity > 0 ? ((quantidade / totalQuantity) * 100).toFixed(1) : '0';
+
+            return (
+              <tr
+                key={index}
+                className={status === 'ok' ? 'bg-green-50' : 'bg-yellow-50'}
+              >
+                <td className="px-6 py-4 whitespace-nowrap">{status}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{percent}%</td>
+              </tr>
+            );
+          })
+        ) : (
+          <tr>
+            <td colSpan={2} className="text-center px-6 py-4">
+              Nenhuma venda encontrada.
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+    </main>
     <Footer />
-    </div>
-  );
+  </div>
+);
+
 };
 
-export default BIComponent;
+export default PvdDashboard;
