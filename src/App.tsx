@@ -26,10 +26,10 @@ import DocSend from "./components/DocSend/cardManager.tsx";
 import DocumentUploader from "./components/DocSend/documentUploader.tsx";
 import FileToPdfConverter from "./components/PdfConvert/index.tsx";
 import Feedback from "./components/Feedback/index.tsx";
-import ADMDASH from "./components/BI/adminBi.tsx";
-import PvdDashboard from "./components/BI/pvdDash.tsx";
-import AddSaleForm from "./components/BI/addSaleForm.tsx";
 import Sales from "./components/Sales/index.tsx";
+import ADMDASH from "./components/AdmDash/index.tsx";
+import AddSeller from "./components/AddSale/index.tsx";
+import PvdDashboard from "./components/PvdSales/index.tsx";
 
 init("PH7ve0_A2N2UWzCRI");
 
@@ -62,10 +62,10 @@ const App: React.FC = () => {
         <Route path="/cards/:cardId" element={<DocumentUploader />} />
         <Route path="/pdfConvert" element={<FileToPdfConverter />} />
         <Route path="/feedback" element={<Feedback />} />
-        <Route path="/admdash" element={<ADMDASH />} />
-        <Route path="/addsale" element={<AddSaleForm />} />
-        <Route path="/dash" element={<PvdDashboard />} />
         <Route path="/sales" element={<Sales />} />
+        <Route path="/dash" element={<ADMDASH />} />
+        <Route path="/addsale" element={<AddSeller />} />
+        <Route path="/pvddash" element={<PvdDashboard />} />
       </Routes>
     </Router>
   );
