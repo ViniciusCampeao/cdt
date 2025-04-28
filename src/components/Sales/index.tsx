@@ -5,6 +5,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 
 const Sales: React.FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [user, setUser] = useState<any>(null); // Estado para o usuário
   const navigate = useNavigate();
   const auth = getAuth();

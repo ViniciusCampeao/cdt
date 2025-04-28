@@ -27,7 +27,7 @@ import DocumentUploader from "./components/DocSend/documentUploader.tsx";
 import FileToPdfConverter from "./components/PdfConvert/index.tsx";
 import Feedback from "./components/Feedback/index.tsx";
 import ADMDASH from "./components/BI/adminBi.tsx";
-import PvdDashboard from "./components/BI/index.tsx";
+import PvdDashboard from "./components/BI/pvdDash.tsx";
 import AddSaleForm from "./components/BI/addSaleForm.tsx";
 import Sales from "./components/Sales/index.tsx";
 
