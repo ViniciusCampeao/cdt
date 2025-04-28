@@ -32,7 +32,7 @@ const Sales: React.FC = () => {
           <div className="grid grid-cols-1 gap-4">
             {isAdmin && (
               <>
-                <Link className="flex" to="/admdash">
+                <Link className="flex" to="/dash">
                   <button className="w-full p-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 m-5">
                     Painel do Administrador
                   </button>
