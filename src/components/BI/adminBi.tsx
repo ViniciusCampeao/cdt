@@ -24,6 +24,7 @@ const ADMDASH = () => {
   const [vendedoras, setVendedoras] = useState<User[]>([]);
   const [vendedoraMap, setVendedoraMap] = useState<Record<string, string>>({});
   const [selectedId, setSelectedId] = useState<string>('');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [chartData, setChartData] = useState<any>(null);
   const [salesList, setSalesList] = useState<Sale[]>([]);
   const [editingSaleId, setEditingSaleId] = useState<string | null>(null);
@@ -117,6 +118,7 @@ const ADMDASH = () => {
       : salesList;
 
     setChartData(generateChartData(filteredSales));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedId, salesList]);
 
   const filteredSales = selectedId
@@ -320,7 +322,7 @@ const ADMDASH = () => {
                 const vendasRefiliacao = salesList.filter(s => s.vendedorId === vendedora.id && s.tipoVenda === 'refiliação');
                 const total = vendasRefiliacao.reduce((sum, sale) => sum + (sale.quantidade || 1), 0);
                 const ok = vendasRefiliacao.filter(s => s.status === 'ok')
-                                           .reduce((sum, sale) => sum + (sale.quantidade || 1), 0);
+                .reduce((sum, sale) => sum + (sale.quantidade || 1), 0);
                 acc[vendedora.id] = total > 0 ? (ok / total) * 100 : 0;
                 return acc;
               }, {} as Record<string, number>))
