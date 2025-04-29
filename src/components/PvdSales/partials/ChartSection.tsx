@@ -8,7 +8,7 @@ interface Props {
 }
 
 const ChartSection: React.FC<Props> = ({ chartData, options }) => (
-  <div className="bg-gray-100 p-6 rounded-lg shadow-lg md:w-[40%] md:h-[40%] mx-auto flex items-center justify-center">
+  <div className="bg-gray-100 p-6 rounded-lg shadow-lg md:w-[35%] md:h-[35%] mx-auto flex items-center justify-center">
     {chartData ? (
       <Pie data={chartData} options={options} />
     ) : (

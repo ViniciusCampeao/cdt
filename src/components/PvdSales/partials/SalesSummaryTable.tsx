@@ -30,6 +30,9 @@ const SalesSummaryTable: React.FC<Props> = ({ salesList }) => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Porcentagem
               </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Quantidade
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -40,6 +43,7 @@ const SalesSummaryTable: React.FC<Props> = ({ salesList }) => {
                 <tr key={index} className={status === 'ok' ? 'bg-green-50' : 'bg-yellow-50'}>
                   <td className="px-6 py-4 whitespace-nowrap">{status}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{percent}%</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{qty}</td>
                 </tr>
               );
             })}

@@ -44,7 +44,7 @@ const Sales: React.FC = () => {
                 </Link>
               </>
             )}
-            <Link className="flex" to="/dash">
+            <Link className="flex" to="/pvdDash">
               <button className="w-full p-4 bg-purple-500 text-white rounded-lg hover:bg-purple-600 m-5">
                 Painel do vendedor
               </button>
