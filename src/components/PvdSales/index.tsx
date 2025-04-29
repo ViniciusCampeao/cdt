@@ -6,20 +6,17 @@ import { getFirestore, collection, getDocs, query, where } from 'firebase/firest
 import { getAuth } from 'firebase/auth';
 import { app } from '../../services/firebaseConfig';
 import { Chart as ChartJS, CategoryScale, LinearScale, ArcElement, Title, Tooltip, Legend } from 'chart.js';
-import ChartSection from './partials/GraphPie';
-import SalesSummaryTable from './partials/SalesPercent';
+import ChartSection from './partials/ChartSection';
+import SalesSummaryTable from './partials/SalesSummaryTable';
 import SalesDetailTable from './partials/SalesDetailTable';
 
-// Registra os componentes necessários do Chart.js
 ChartJS.register(CategoryScale, LinearScale, ArcElement, Title, Tooltip, Legend);
 
-// Definição do tipo `User`
 interface User {
   id: string;
   email: string;
 }
 
-// Definição do tipo `Sale`
 interface Sale {
   status: string;
   quantidade: number;
@@ -38,10 +35,10 @@ const PvdDashboard: React.FC = () => {
   const [chartData, setChartData] = useState<ChartData<'pie'> | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [salesList, setSalesList] = useState<Sale[]>([]);
+  const [selectedMonth, setSelectedMonth] = useState<string>(''); // formato: '2025-04'
   const auth = getAuth();
   const db = getFirestore(app);
 
-  // Busca as informações do usuário autenticado
   useEffect(() => {
     const fetchUser = () => {
       const currentUser = auth.currentUser;
@@ -65,7 +62,6 @@ const PvdDashboard: React.FC = () => {
     });
   }, [auth]);
 
-  // Busca os dados de vendas do Firebase
   useEffect(() => {
     if (!user?.id) return;
 
@@ -85,11 +81,24 @@ const PvdDashboard: React.FC = () => {
         const sales: Sale[] = [];
 
         snapshot.forEach((doc) => {
-          const data = doc.data() as Sale;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const data = doc.data() as any;
+          const timestamp: Date | undefined = data.timestamp?.toDate?.();
+
+          if (!timestamp) return;
+
+          // Filtro por mês
+          if (selectedMonth) {
+            const [year, month] = selectedMonth.split('-').map(Number);
+            const isSameMonth =
+              timestamp.getFullYear() === year && timestamp.getMonth() + 1 === month;
+            if (!isSameMonth) return;
+          }
+
           sales.push({
             status: data.status,
             quantidade: data.quantidade || 1,
-            matricula: (doc.data()).matricula || 'Sem matrícula',
+            matricula: data.matricula || 'Sem matrícula',
           });
 
           if (data.status && Object.prototype.hasOwnProperty.call(statusCount, data.status)) {
@@ -116,9 +125,8 @@ const PvdDashboard: React.FC = () => {
     };
 
     fetchData();
-  }, [user, db]);
+  }, [user, selectedMonth, db]);
 
-  // Configurações do gráfico
   const options: ChartOptions<'pie'> = {
     responsive: true,
     plugins: {
@@ -139,8 +147,21 @@ const PvdDashboard: React.FC = () => {
   return (
     <div>
       <Header />
-      <main className="p-10 bg-gray-100">
+      <main className="p-10 bg-gray-100 min-h-screen">
         <h1 className="text-3xl font-bold text-center mb-8">Minhas Vendas</h1>
+
+        <div className="mb-6 flex justify-center">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Filtrar por mês</label>
+            <input
+              type="month"
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+              className="block w-60 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            />
+          </div>
+        </div>
+
         <ChartSection chartData={chartData} options={options} />
         <SalesDetailTable salesList={salesList} />
         <SalesSummaryTable salesList={salesList} />
