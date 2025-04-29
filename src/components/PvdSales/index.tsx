@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { ChartData, ChartOptions } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
 import Header from '../Header';
 import Footer from '../Footer';
 import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { app } from '../../services/firebaseConfig';
 import { Chart as ChartJS, CategoryScale, LinearScale, ArcElement, Title, Tooltip, Legend } from 'chart.js';
+import ChartSection from './partials/GraphPie';
+import SalesSummaryTable from './partials/SalesPercent';
+import SalesDetailTable from './partials/SalesDetailTable';
 
 // Registra os componentes necessários do Chart.js
 ChartJS.register(CategoryScale, LinearScale, ArcElement, Title, Tooltip, Legend);
@@ -139,90 +141,9 @@ const PvdDashboard: React.FC = () => {
       <Header />
       <main className="p-10 bg-gray-100">
         <h1 className="text-3xl font-bold text-center mb-8">Minhas Vendas</h1>
-        {chartData ? (
-          <div className="bg-gray-100 p-6 rounded-lg shadow-lg md:w-[40%] md:h-[40%] mx-auto flex items-center justify-center">
-            <Pie data={chartData} options={options} />
-          </div>
-        ) : (
-          <p className="text-center">Carregando dados...</p>
-        )}
-        <div className="bg-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto mt-10">
-          <h2 className="text-2xl font-semibold mb-4 text-center">Detalhamento das Vendas</h2>
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Matrícula
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {salesList.length > 0 ? (
-                  salesList.map((sale, index) => (
-                    <tr key={index} className={sale.status === 'ok' ? 'bg-green-50' : 'bg-yellow-50'}>
-                      <td className="px-6 py-4 whitespace-nowrap">{sale.matricula}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">{sale.status}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={2} className="text-center px-6 py-4">
-                      Nenhuma venda encontrada.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto mt-10">
-          <h2 className="text-2xl font-semibold mb-4 text-center">Resumo Percentual das Vendas</h2>
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Porcentagem
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {salesList.length > 0 ? (
-                  Object.entries(
-                    salesList.reduce<Record<string, number>>((acc, sale) => {
-                      acc[sale.status] = (acc[sale.status] || 0) + sale.quantidade;
-                      return acc;
-                    }, {})
-                  ).map(([status, quantidade], index, array) => {
-                    const totalQuantity = array.reduce((acc, [, qty]) => acc + qty, 0);
-                    const percent =
-                      totalQuantity > 0 ? ((quantidade / totalQuantity) * 100).toFixed(1) : '0';
-
-                    return (
-                      <tr key={index} className={status === 'ok' ? 'bg-green-50' : 'bg-yellow-50'}>
-                        <td className="px-6 py-4 whitespace-nowrap">{status}</td>
-                        <td className="px-6 py-4 whitespace-nowrap">{percent}%</td>
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <tr>
-                    <td colSpan={2} className="text-center px-6 py-4">
-                      Nenhuma venda encontrada.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <ChartSection chartData={chartData} options={options} />
+        <SalesDetailTable salesList={salesList} />
+        <SalesSummaryTable salesList={salesList} />
       </main>
       <Footer />
     </div>

@@ -13,17 +13,19 @@ const StatusProportion: React.FC<Props> = ({ statusSummary, totalQuantity }) => 
         <tr className="bg-gray-200">
           <th className="p-2">Status</th>
           <th className="p-2">Porcentagem</th>
+          <th className="p-2">Quantidade</th>
         </tr>
       </thead>
       <tbody>
         {Object.entries(statusSummary).map(([status, count]) => (
           <tr key={status} className="border-t">
-            <td className="p-2 capitalize">{status}</td>
-            <td className="p-2">
+            <td className="p-2 capitalize text-center">{status}</td>
+            <td className="p-2 text-center">
               {totalQuantity > 0
                 ? `${((count / totalQuantity) * 100).toFixed(2)}%`
                 : '0%'}
             </td>
+            <td className="p-2 text-center">{count}</td>
           </tr>
         ))}
       </tbody>

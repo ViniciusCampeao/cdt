@@ -12,8 +12,8 @@ const Ranking: React.FC<Props> = ({ vendedoraMap, rankingData, title }) => (
     <table className="w-full table-auto">
       <thead>
         <tr className="bg-gray-200">
-          <th className="p-2">Nome da Vendedora</th>
-          <th className="p-2">% de OK</th>
+          <th className="p-2">Nome</th>
+          <th className="p-2">% OK</th>
         </tr>
       </thead>
       <tbody>
