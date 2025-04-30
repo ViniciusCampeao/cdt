@@ -18,7 +18,22 @@ const StatusProportion: React.FC<Props> = ({ statusSummary, totalQuantity }) => 
       </thead>
       <tbody>
         {Object.entries(statusSummary).map(([status, count]) => (
-          <tr key={status} className="border-t">
+          <tr
+            key={status}
+            className={`border-t ${
+              status === 'ok'
+                ? 'bg-green-100'
+                : status === 'cancelado'
+                ? 'bg-red-100'
+                : status === 'ligação'
+                ? 'bg-yellow-100'
+                : status === 'doc'
+                ? 'bg-blue-100'
+                : status === 'tudo'
+                ? 'bg-gray-100'
+                : ''
+            }`}
+          >
             <td className="p-2 capitalize text-center">{status}</td>
             <td className="p-2 text-center">
               {totalQuantity > 0

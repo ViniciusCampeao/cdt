@@ -19,8 +19,19 @@ const Ranking: React.FC<Props> = ({ vendedoraMap, rankingData, title }) => (
       <tbody>
         {Object.entries(rankingData)
           .sort((a, b) => b[1] - a[1])
-          .map(([id, perc]) => (
-            <tr key={id} className="border-t">
+          .map(([id, perc], index) => (
+            <tr
+              key={id}
+              className={`border-t ${
+                index === 0
+                  ? 'bg-yellow-300' 
+                  : index === 1
+                  ? 'bg-gray-200' 
+                  : index === 2
+                  ? 'bg-orange-200' 
+                  : ''
+              }`}
+            >
               <td className="p-2">{vendedoraMap[id]}</td>
               <td className="p-2">{perc.toFixed(2)}%</td>
             </tr>
