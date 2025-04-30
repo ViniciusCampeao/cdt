@@ -16,6 +16,7 @@ interface Sale {
   matricula: string;
   tipoVenda: string;
   id?: string;
+  timestamp: { toDate: () => Date };
 }
 
 interface User {
@@ -211,16 +212,19 @@ const ADMDASH = () => {
         <StatusProportion
           statusSummary={statusSummary}
           totalQuantity={totalQuantity}
+          sales={salesList}
         />
         <Ranking
           title="Ranking de Vendas OK (%)"
           vendedoraMap={vendedoraMap}
           rankingData={rankingData}
+          sales={salesList}
         />
         <Ranking
           title="Ranking de Refiliações OK (%)"
           vendedoraMap={vendedoraMap}
           rankingData={rankingRefilData}
+          sales={salesList}
         />
       </main>
       <Footer />

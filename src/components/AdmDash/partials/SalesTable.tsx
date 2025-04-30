@@ -7,6 +7,7 @@ interface Sale {
   status: string;
   tipoVenda: string;
   quantidade: number;
+  timestamp: { toDate: () => Date }; // Timestamp do Firebase
 }
 
 interface Props {
@@ -30,6 +31,8 @@ const SalesTable: React.FC<Props> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [hiddenStatuses, setHiddenStatuses] = useState<string[]>([]);
+  const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth() + 1); // Mês atual
+  const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear()); // Ano atual
 
   const toggleStatusFilter = (status: string) => {
     setHiddenStatuses((prev) =>
@@ -37,11 +40,15 @@ const SalesTable: React.FC<Props> = ({
     );
   };
 
-  const filteredSales = sales.filter(
-    (sale) =>
+  const filteredSales = sales.filter((sale) => {
+    const saleDate = sale.timestamp.toDate();
+    return (
       sale.matricula.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      !hiddenStatuses.includes(sale.status)
-  );
+      !hiddenStatuses.includes(sale.status) &&
+      saleDate.getMonth() + 1 === selectedMonth &&
+      saleDate.getFullYear() === selectedYear
+    );
+  });
 
   return (
     <div className="bg-white p-4 rounded shadow-md w-full max-w-4xl mb-8">
@@ -52,7 +59,7 @@ const SalesTable: React.FC<Props> = ({
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="matrícula"
+          placeholder="Digite a matrícula"
           className="border p-2 rounded w-full"
         />
       </div>
@@ -72,6 +79,36 @@ const SalesTable: React.FC<Props> = ({
           ))}
         </div>
       </div>
+      <div className="mb-4 flex gap-4">
+        <div>
+          <h3 className="text-lg font-semibold mb-2">Filtrar por Mês:</h3>
+          <select
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(Number(e.target.value))}
+            className="border p-2 rounded"
+          >
+            {Array.from({ length: 12 }, (_, i) => (
+              <option key={i + 1} value={i + 1}>
+                {new Date(0, i).toLocaleString('default', { month: 'long' })}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold mb-2">Filtrar por Ano:</h3>
+          <select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(Number(e.target.value))}
+            className="border p-2 rounded"
+          >
+            {Array.from({ length: 5 }, (_, i) => (
+              <option key={i} value={new Date().getFullYear() - i}>
+                {new Date().getFullYear() - i}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
       <table className="w-full table-auto">
         <thead>
           <tr className="bg-gray-200">
@@ -79,6 +116,7 @@ const SalesTable: React.FC<Props> = ({
             <th className="p-2">Matrícula</th>
             <th className="p-2">Status</th>
             <th className="p-2">Tipo de Venda</th>
+            <th className="p-2">Data</th>
             <th className="p-2">Editar</th>
           </tr>
         </thead>
@@ -86,9 +124,7 @@ const SalesTable: React.FC<Props> = ({
           {filteredSales.length > 0 ? (
             filteredSales.map((sale) => (
               <tr key={sale.id} className="border-t">
-                <td className="p-2">
-                  {vendedoraMap[sale.vendedorId] || 'Nome não encontrado'}
-                </td>
+                <td className="p-2">{vendedoraMap[sale.vendedorId] || 'Desconhecido'}</td>
                 <td className="p-2">{sale.matricula}</td>
                 <td
                   className={`p-2 font-semibold ${
@@ -108,6 +144,9 @@ const SalesTable: React.FC<Props> = ({
                   {sale.status}
                 </td>
                 <td className="p-2 capitalize">{sale.tipoVenda}</td>
+                <td className="p-2">
+                  {sale.timestamp.toDate().toLocaleDateString()}
+                </td>
                 <td className="p-2">
                   {editingSaleId === sale.id ? (
                     <div className="flex gap-2">
@@ -143,8 +182,8 @@ const SalesTable: React.FC<Props> = ({
             ))
           ) : (
             <tr>
-              <td colSpan={5} className="text-center p-4">
-                Nenhuma venda encontrada com esta matrícula ou status.
+              <td colSpan={6} className="text-center p-4">
+                Nenhuma venda encontrada com os filtros aplicados.
               </td>
             </tr>
           )}
