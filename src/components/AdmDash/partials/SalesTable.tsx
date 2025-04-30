@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface Sale {
   id?: string;
@@ -27,80 +27,131 @@ const SalesTable: React.FC<Props> = ({
   setEditingSaleId,
   setNewStatus,
   handleUpdateStatus,
-}) => (
-  <div className="bg-white p-4 rounded shadow-md w-full max-w-4xl mb-8">
-    <h2 className="text-xl font-semibold mb-4">Resumo de Vendas</h2>
-    <table className="w-full table-auto">
-      <thead>
-        <tr className="bg-gray-200">
-          <th className="p-2">Nome da Vendedora</th>
-          <th className="p-2">Matrícula</th>
-          <th className="p-2">Status</th>
-          <th className="p-2">Tipo de Venda</th>
-          <th className="p-2">Editar</th>
-        </tr>
-      </thead>
-      <tbody>
-        {sales.map((sale) => (
-          <tr key={sale.id} className="border-t">
-            <td className="p-2">
-              {vendedoraMap[sale.vendedorId] || 'Nome não encontrado'}
-            </td>
-            <td className="p-2">{sale.matricula}</td>
-            <td
-              className={`p-2 font-semibold ${
-                sale.status === 'ok'
-                  ? 'text-green-500'
-                  : sale.status === 'cancelado'
-                  ? 'text-red-500'
-                  : sale.status === 'doc'
-                  ? 'text-blue-500'
-                  : sale.status === 'ligação'
-                  ? 'text-yellow-500'
-                  : sale.status === 'tudo'
-                  ? 'text-orange-500'
-                  : ''
-              }`}
-            >
-              {sale.status}
-            </td>
-            <td className="p-2 capitalize">{sale.tipoVenda}</td>
-            <td className="p-2">
-              {editingSaleId === sale.id ? (
-                <div className="flex gap-2">
-                  <select
-                    value={newStatus}
-                    onChange={(e) => setNewStatus(e.target.value)}
-                    className="border p-1 rounded"
-                  >
-                    <option value="">Selecione</option>
-                    <option value="ok">Ok</option>
-                    <option value="cancelado">Cancelado</option>
-                    <option value="doc">Doc</option>
-                    <option value="ligação">Ligação</option>
-                    <option value="tudo">Tudo</option>
-                  </select>
-                  <button
-                    onClick={() => handleUpdateStatus(sale.id!)}
-                    className="bg-blue-500 text-white px-2 py-1 rounded"
-                  >
-                    Salvar
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => setEditingSaleId(sale.id!)}
-                  className="bg-green-500 text-white px-2 py-1 rounded"
-                >
-                  Editar
-                </button>
-              )}
-            </td>
+}) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [hiddenStatuses, setHiddenStatuses] = useState<string[]>([]);
+
+  const toggleStatusFilter = (status: string) => {
+    setHiddenStatuses((prev) =>
+      prev.includes(status) ? prev.filter((s) => s !== status) : [...prev, status]
+    );
+  };
+
+  const filteredSales = sales.filter(
+    (sale) =>
+      sale.matricula.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      !hiddenStatuses.includes(sale.status)
+  );
+
+  return (
+    <div className="bg-white p-4 rounded shadow-md w-full max-w-4xl mb-8">
+      <h2 className="text-xl font-semibold w-full text-center uppercase mb-12">Resumo de Vendas</h2>
+      <div className="mb-4">
+        <h3 className="text-lg font-semibold mb-2">Pesquisar por Matrícula:</h3>
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="matrícula"
+          className="border p-2 rounded w-full"
+        />
+      </div>
+      <div className="mb-4">
+        <h3 className="text-lg font-semibold mb-2">Filtros de Status:</h3>
+        <div className="flex gap-4 flex-wrap">
+          {['ok', 'cancelado', 'doc', 'ligação', 'tudo'].map((status) => (
+            <label key={status} className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={!hiddenStatuses.includes(status)}
+                onChange={() => toggleStatusFilter(status)}
+                className="form-checkbox h-4 w-4 text-blue-600 border-gray-300"
+              />
+              {status}
+            </label>
+          ))}
+        </div>
+      </div>
+      <table className="w-full table-auto">
+        <thead>
+          <tr className="bg-gray-200">
+            <th className="p-2">Nome da Vendedora</th>
+            <th className="p-2">Matrícula</th>
+            <th className="p-2">Status</th>
+            <th className="p-2">Tipo de Venda</th>
+            <th className="p-2">Editar</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-);
+        </thead>
+        <tbody>
+          {filteredSales.length > 0 ? (
+            filteredSales.map((sale) => (
+              <tr key={sale.id} className="border-t">
+                <td className="p-2">
+                  {vendedoraMap[sale.vendedorId] || 'Nome não encontrado'}
+                </td>
+                <td className="p-2">{sale.matricula}</td>
+                <td
+                  className={`p-2 font-semibold ${
+                    sale.status === 'ok'
+                      ? 'text-green-500'
+                      : sale.status === 'cancelado'
+                      ? 'text-red-500'
+                      : sale.status === 'doc'
+                      ? 'text-blue-500'
+                      : sale.status === 'ligação'
+                      ? 'text-yellow-500'
+                      : sale.status === 'tudo'
+                      ? 'text-orange-500'
+                      : ''
+                  }`}
+                >
+                  {sale.status}
+                </td>
+                <td className="p-2 capitalize">{sale.tipoVenda}</td>
+                <td className="p-2">
+                  {editingSaleId === sale.id ? (
+                    <div className="flex gap-2">
+                      <select
+                        value={newStatus}
+                        onChange={(e) => setNewStatus(e.target.value)}
+                        className="border p-1 rounded"
+                      >
+                        <option value="">Selecione</option>
+                        <option value="ok">Ok</option>
+                        <option value="cancelado">Cancelado</option>
+                        <option value="doc">Doc</option>
+                        <option value="ligação">Ligação</option>
+                        <option value="tudo">Tudo</option>
+                      </select>
+                      <button
+                        onClick={() => handleUpdateStatus(sale.id!)}
+                        className="bg-blue-500 text-white px-2 py-1 rounded"
+                      >
+                        Salvar
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setEditingSaleId(sale.id!)}
+                      className="bg-green-500 text-white px-2 py-1 rounded"
+                    >
+                      Editar
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={5} className="text-center p-4">
+                Nenhuma venda encontrada com esta matrícula ou status.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 export default SalesTable;

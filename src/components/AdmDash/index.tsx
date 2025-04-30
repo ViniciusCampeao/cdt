@@ -86,10 +86,10 @@ const ADMDASH = () => {
       };
 
       const statusCount: Record<string, number> = {
+        ok: 0,
         cancelado: 0,
         doc: 0,
         ligação: 0,
-        ok: 0,
         tudo: 0,
       };
 
@@ -104,9 +104,9 @@ const ADMDASH = () => {
         labels,
         datasets: [
           {
-            label: 'Status das Vendas',
-            data: labels.map((status) => statusCount[status]),
-            backgroundColor: labels.map((status) => statusColors[status]),
+            label: 'Quantidade de Vendas por Status',
+            data: labels.map((label) => statusCount[label]),
+            backgroundColor: labels.map((label) => statusColors[label]),
           },
         ],
       };
@@ -129,10 +129,10 @@ const ADMDASH = () => {
   );
 
   const statusSummary = {
+    ok: 0,
     cancelado: 0,
     doc: 0,
     ligação: 0,
-    ok: 0,
     tudo: 0,
   };
 
