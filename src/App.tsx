@@ -30,6 +30,7 @@ import Sales from "./components/Sales/index.tsx";
 import ADMDASH from "./components/AdmDash/index.tsx";
 import AddSeller from "./components/AddSale/index.tsx";
 import PvdDashboard from "./components/PvdSales/index.tsx";
+import CallRegister from "./components/CallRegister/index.tsx";
 
 init("PH7ve0_A2N2UWzCRI");
 
@@ -66,6 +67,7 @@ const App: React.FC = () => {
         <Route path="/dash" element={<ADMDASH />} />
         <Route path="/addsale" element={<AddSeller />} />
         <Route path="/pvddash" element={<PvdDashboard />} />
+        <Route path="/call" element={<CallRegister />} />
       </Routes>
     </Router>
   );
