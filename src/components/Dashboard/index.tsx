@@ -18,10 +18,11 @@ const AdminDashboard: React.FC = () => {
           <DashboardButton label="VPN" path="/Vpn" />
           <DashboardButton label="Links uteis" path="/APK" />
           <DashboardButton label="Extrair números para TIM" path="/tim" />
-          <DashboardButton label="Vendas" path="/sales" />
           <DashboardButton label="Verificar Bandeira do Cartão" path="/cardChecker" />
-          <DashboardButton label="Buscar CEP" path="/addressLookup" />
+          <DashboardButton label="Buscar CEP" path="/addressLookup" />          
+          <DashboardButton label="Vendas" path="/sales" />
           <DashboardButton label="Enviar doc" path="/docSend" />
+          <DashboardButton label="Registrar ligação" path="/call" />
         </div>
       </div>
       <Footer />
