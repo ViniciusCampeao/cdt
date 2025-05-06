@@ -108,7 +108,7 @@ const CallRegister = () => {
   return (
     <div>
       <Header />
-      <main className="grid grid-cols-2 items-center bg-gray-100 p-4">
+      <main className="md:grid md:grid-cols-2 items-center bg-gray-100 p-4">
         <div className="bg-white p-6 rounded shadow-md w-full max-w-lg mx-auto">
           <h2 className="text-xl font-semibold mb-4 text-center">Registrar Ligações</h2>
 
@@ -226,7 +226,9 @@ const CallRegister = () => {
           </form>
 
         </div>
-        <div className="bg-white p-6 rounded shadow-md w-full max-w-lg">
+        <div className="bg-white p-6 rounded shadow-md w-full max-w-lg mx-auto mt-6 md:mt-0 md:ml-6">
+          <h2 className="text-xl font-semibold mb-4 text-center">Lista de Ligações</h2>
+      
 
           <div className="mb-4">
             <label className="block  font-medium mb-2">Filtrar por Dia:</label>
