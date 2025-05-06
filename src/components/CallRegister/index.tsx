@@ -155,6 +155,7 @@ const CallRegister = () => {
         segundoNumero: '',
         observacao: '',
       });
+      window.open('https://wa.link/asq1kp', '_blank'); // Re-added the link opening functionality
     } catch (err) {
       console.error(err);
       setError('Erro ao registrar ligação.');
