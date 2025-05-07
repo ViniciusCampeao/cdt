@@ -22,6 +22,8 @@ interface Call {
   observacao?: string;
 }
 
+const whatsappUrl = `https://web.whatsapp.com/send?phone=$+554398100176&text=Ligação%20agendada%20!`;
+
 const CallRegister = () => {
   const [calls, setCalls] = useState<Call[]>([]);
   const [filteredCalls, setFilteredCalls] = useState<Call[]>([]);
@@ -155,7 +157,7 @@ const CallRegister = () => {
         segundoNumero: '',
         observacao: '',
       });
-      window.open('https://wa.link/asq1kp', '_blank'); // Re-added the link opening functionality
+      window.open(whatsappUrl); // Re-added the link opening functionality
     } catch (err) {
       console.error(err);
       setError('Erro ao registrar ligação.');
