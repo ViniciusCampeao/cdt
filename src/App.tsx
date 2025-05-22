@@ -25,7 +25,6 @@ import AddressLookup from "./components/AddressLookup/index.tsx";
 import DocSend from "./components/DocSend/cardManager.tsx";
 import DocumentUploader from "./components/DocSend/documentUploader.tsx";
 import FileToPdfConverter from "./components/PdfConvert/index.tsx";
-import Feedback from "./components/Feedback/index.tsx";
 import Sales from "./components/Sales/index.tsx";
 import ADMDASH from "./components/AdmDash/index.tsx";
 import AddSeller from "./components/AddSale/index.tsx";
@@ -62,7 +61,6 @@ const App: React.FC = () => {
         <Route path="/docSend" element={<DocSend />} />
         <Route path="/cards/:cardId" element={<DocumentUploader />} />
         <Route path="/pdfConvert" element={<FileToPdfConverter />} />
-        <Route path="/feedback" element={<Feedback />} />
         <Route path="/sales" element={<Sales />} />
         <Route path="/dash" element={<ADMDASH />} />
         <Route path="/addsale" element={<AddSeller />} />
