@@ -139,10 +139,6 @@ const ADMDASH = () => {
     ? salesList.filter((sale) => sale.vendedorId === selectedId)
     : salesList;
 
-  const totalQuantity = filteredSales.reduce(
-    (sum, sale) => sum + (sale.quantidade || 1),
-    0
-  );
 
   const statusSummary = {
     ok: 0,
@@ -337,6 +333,7 @@ const ADMDASH = () => {
         />
 
         <StatusProportion
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           statusSummary={{} as any}
           totalQuantity={0}
           sales={filteredSales}
