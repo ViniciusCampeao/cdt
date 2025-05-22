@@ -10,7 +10,7 @@ const PhoneExtractor: React.FC = () => {
     const numerosCorrigidos: string[] = numeros.map((numero) => {
       numero = numero.trim().replace(/\D/g, "");
 
-      if (!numero.startsWith("43")) {
+      if (numero.startsWith("9")) {
         numero = "43" + numero;
       }
 

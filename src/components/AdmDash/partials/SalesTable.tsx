@@ -18,6 +18,8 @@ interface Props {
   setEditingSaleId: (id: string | null) => void;
   setNewStatus: (status: string) => void;
   handleUpdateStatus: (saleId: string) => Promise<void>;
+  handleDeleteSale: (saleId: string) => Promise<void>;
+  handleDeleteMultipleSales?: (saleIds: string[]) => Promise<void>; // Nova prop para deletar múltiplas vendas
 }
 
 const SalesTable: React.FC<Props> = ({
@@ -28,16 +30,59 @@ const SalesTable: React.FC<Props> = ({
   setEditingSaleId,
   setNewStatus,
   handleUpdateStatus,
+  handleDeleteSale,
+  handleDeleteMultipleSales,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [hiddenStatuses, setHiddenStatuses] = useState<string[]>([]);
   const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth() + 1); // Mês atual
   const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear()); // Ano atual
+  const [selectedSales, setSelectedSales] = useState<string[]>([]); // Estado para armazenar IDs das vendas selecionadas
 
   const toggleStatusFilter = (status: string) => {
     setHiddenStatuses((prev) =>
       prev.includes(status) ? prev.filter((s) => s !== status) : [...prev, status]
     );
+  };
+
+  // Toggle para selecionar/deselecionar uma venda
+  const toggleSaleSelection = (saleId: string | undefined) => {
+    if (!saleId) return;
+    
+    setSelectedSales(prev => 
+      prev.includes(saleId) 
+        ? prev.filter(id => id !== saleId) 
+        : [...prev, saleId]
+    );
+  };
+
+  // Selecionar/deselecionar todas as vendas filtradas
+  const toggleSelectAll = () => {
+    if (selectedSales.length === filteredSales.filter(sale => sale.id).length) {
+      setSelectedSales([]);
+    } else {
+      const allIds = filteredSales
+        .filter(sale => sale.id)
+        .map(sale => sale.id as string);
+      setSelectedSales(allIds);
+    }
+  };
+
+  // Deletar todas as vendas selecionadas
+  const deleteSelectedSales = async () => {
+    if (selectedSales.length === 0) return;
+    
+    if (confirm(`Tem certeza que deseja deletar ${selectedSales.length} vendas selecionadas?`)) {
+      if (handleDeleteMultipleSales) {
+        await handleDeleteMultipleSales(selectedSales);
+      } else {
+        // Caso a props handleDeleteMultipleSales não for fornecida, deletamos uma a uma
+        for (const saleId of selectedSales) {
+          await handleDeleteSale(saleId);
+        }
+      }
+      setSelectedSales([]);
+    }
   };
 
   const filteredSales = sales.filter((sale) => {
@@ -109,9 +154,30 @@ const SalesTable: React.FC<Props> = ({
           </select>
         </div>
       </div>
+      
+      {selectedSales.length > 0 && (
+        <div className="mb-4 flex justify-between items-center bg-red-50 p-3 rounded">
+          <span className="font-medium">{selectedSales.length} vendas selecionadas</span>
+          <button
+            onClick={deleteSelectedSales}
+            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+          >
+            Deletar Selecionadas
+          </button>
+        </div>
+      )}
+      
       <table className="w-full table-auto">
         <thead>
           <tr className="bg-gray-200">
+            <th className="p-2">
+              <input 
+                type="checkbox" 
+                checked={selectedSales.length > 0 && selectedSales.length === filteredSales.filter(sale => sale.id).length}
+                onChange={toggleSelectAll}
+                className="form-checkbox h-4 w-4"
+              />
+            </th>
             <th className="p-2">Nome da Vendedora</th>
             <th className="p-2">Matrícula</th>
             <th className="p-2">Status</th>
@@ -124,6 +190,14 @@ const SalesTable: React.FC<Props> = ({
           {filteredSales.length > 0 ? (
             filteredSales.map((sale) => (
               <tr key={sale.id} className="border-t">
+                <td className="p-2 text-center">
+                  <input 
+                    type="checkbox" 
+                    checked={sale.id ? selectedSales.includes(sale.id) : false}
+                    onChange={() => toggleSaleSelection(sale.id)}
+                    className="form-checkbox h-4 w-4"
+                  />
+                </td>
                 <td className="p-2">{vendedoraMap[sale.vendedorId] || 'Desconhecido'}</td>
                 <td className="p-2">{sale.matricula}</td>
                 <td
@@ -170,19 +244,27 @@ const SalesTable: React.FC<Props> = ({
                       </button>
                     </div>
                   ) : (
-                    <button
-                      onClick={() => setEditingSaleId(sale.id!)}
-                      className="bg-green-500 text-white px-2 py-1 rounded"
-                    >
-                      Editar
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setEditingSaleId(sale.id!)}
+                        className="bg-green-500 text-white px-2 py-1 rounded"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        onClick={() => handleDeleteSale(sale.id!)}
+                        className="bg-red-500 text-white px-2 py-1 rounded"
+                      >
+                        Deletar
+                      </button>
+                    </div>
                   )}
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={6} className="text-center p-4">
+              <td colSpan={7} className="text-center p-4">
                 Nenhuma venda encontrada com os filtros aplicados.
               </td>
             </tr>
